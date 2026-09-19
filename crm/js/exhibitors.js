@@ -624,7 +624,7 @@ function renderCRMInvoice(ex) {
 
       <div style="background:rgba(42,171,219,.06);border:1px solid rgba(42,171,219,.2);border-radius:8px;padding:.9rem 1.1rem;margin-bottom:1.5rem;font-size:.86rem;">
         <strong style="color:#0F2D45;display:block;margin-bottom:.2rem;">Event</strong>
-        ASKHEALTH Healthcare B2B Event — August 15, 2026 — Hyatt Regency, Casablanca
+        ASKHEALTH Healthcare B2B Event — October 17, 2026 — La Palace d’Anfa, Casablanca
       </div>
 
       <table style="width:100%;border-collapse:collapse;margin-bottom:1.5rem;">
