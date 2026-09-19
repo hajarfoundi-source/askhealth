@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <base href="/crm/">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ASKHEALTH CRM — Lead Pipeline</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/shared.css">
+  <link rel="stylesheet" href="css/kanban.css">
+</head>
+<body>
+<div class="crm-layout">
+  <!-- Sidebar -->
+  <aside class="sidebar" id="sidebar"></aside>
+  <!-- Sidebar overlay (mobile) -->
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+  <!-- Main -->
+  <main class="crm-main">
+    <!-- Top bar -->
+    <div class="topbar">
+      <div class="topbar-left">
+        <button class="btn-hamburger" id="sidebarToggle" aria-label="Toggle menu">
+          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
+          </svg>
+        </button>
+        <span class="topbar-title">Lead Pipeline</span>
+        <div class="kanban-toolbar" id="toolbar"></div>
+      </div>
+      <div class="topbar-right" id="topbarRight"></div>
+    </div>
+
+    <!-- Subtoolbar: view toggle, filter, search, new lead -->
+    <div class="kanban-subtoolbar" id="subtoolbar"></div>
+
+    <!-- Board (desktop only) -->
+    <div class="board-wrap" id="boardWrap">
+      <div class="board" id="board"></div>
+    </div>
+
+    <!-- Cards view (mobile) -->
+    <div class="cards-wrap" id="cardsWrap" style="display:none;"></div>
+
+    <!-- List view -->
+    <div class="list-wrap" id="listWrap" style="display:none;">
+      <div class="list-toolbar">
+        <span class="list-count" id="listCount"></span>
+        <button class="btn btn-ghost btn-sm" onclick="exportLeadsCSV()">
+          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+            <polyline points="7 10 12 15 17 10"/>
+            <line x1="12" y1="15" x2="12" y2="3"/>
+          </svg>
+          Export to Excel
+        </button>
+      </div>
+      <div class="list-table-wrap">
+        <table class="list-table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Phone</th>
+              <th>Organization</th>
+              <th>Country</th>
+              <th>Interest</th>
+              <th>Stage</th>
+              <th>Rep</th>
+              <th>Badge #</th>
+              <th>Created</th>
+            </tr>
+          </thead>
+          <tbody id="listBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+</div>
+
+<!-- Toast container -->
+<div id="toast-container"></div>
+
+<!-- ── Lead detail side panel ───────────────────────────── -->
+<div class="side-panel-overlay" id="panelOverlay">
+  <div class="side-panel-backdrop" id="panelBackdrop"></div>
+  <div class="side-panel" id="sidePanel">
+    <div class="side-panel-header">
+      <h3 id="panelName">Lead Detail</h3>
+      <button class="btn-close" id="panelClose" style="background:rgba(255,255,255,.15);color:#fff;">✕</button>
+    </div>
+    <div class="side-panel-body" id="panelBody"></div>
+  </div>
+</div>
+
+<!-- ── New Lead modal (admin only) ──────────────────────── -->
+<div class="modal-overlay" id="newLeadOverlay">
+  <div class="modal-dialog">
+    <div class="modal-header">
+      <h3>Add New Lead</h3>
+      <button class="btn-close" id="newLeadClose">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="lead-form-grid" id="newLeadForm">
+        <div class="form-group">
+          <label>Full Name *</label>
+          <input type="text" class="form-control" id="nl_name" placeholder="Dr. Ahmed Benali">
+        </div>
+        <div class="form-group">
+          <label>Email *</label>
+          <input type="email" class="form-control" id="nl_email" placeholder="ahmed@hospital.ma">
+        </div>
+        <div class="form-group">
+          <label>Phone</label>
+          <input type="tel" class="form-control" id="nl_phone" placeholder="+212 6XX XX XX XX">
+        </div>
+        <div class="form-group full-width">
+          <label>Organization *</label>
+          <input type="text" class="form-control" id="nl_org" placeholder="Clinique Al Wifaq">
+        </div>
+        <div class="form-group">
+          <label>Country *</label>
+          <select class="form-control" id="nl_country">
+            <option value="">Select country</option>
+            <option>Morocco</option>
+            <option>Turkey</option>
+            <option>Algeria</option>
+            <option>Tunisia</option>
+            <option>Libya</option>
+            <option>France</option>
+            <option>UAE</option>
+            <option>Saudi Arabia</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Area of Interest *</label>
+          <select class="form-control" id="nl_interest">
+            <option value="">Select interest</option>
+            <option>Cardiology</option>
+            <option>Oncology</option>
+            <option>Orthopedics &amp; Spine</option>
+            <option>Neurology</option>
+            <option>IVF &amp; Reproductive Health</option>
+            <option>Dermatology &amp; Aesthetics</option>
+            <option>General Surgery</option>
+            <option>Medical Tourism &amp; Investment</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div class="form-group full-width">
+          <label>Message</label>
+          <textarea class="form-control" id="nl_message" placeholder="Optional notes…"></textarea>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" id="newLeadCancel">Cancel</button>
+      <button class="btn btn-primary" id="newLeadSubmit">Add Lead</button>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/db.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/kanban.js"></script>
+</body>
+</html>

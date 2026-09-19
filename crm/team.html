@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <base href="/crm/">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ASKHEALTH CRM — Team</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/shared.css">
+  <style>
+    .team-content {
+      padding: 28px 32px;
+      max-width: 900px;
+    }
+
+    .team-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 24px;
+    }
+
+    .team-header h2 {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--navy);
+    }
+
+    .team-header p {
+      font-size: 13px;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+
+    /* Rep table */
+    .team-table {
+      width: 100%;
+      border-collapse: collapse;
+      background: var(--surface);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-sm);
+      overflow: hidden;
+    }
+
+    .team-table th {
+      text-align: left;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: .5px;
+      padding: 11px 16px;
+      background: #F8FAFC;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .team-table td {
+      padding: 13px 16px;
+      font-size: 13px;
+      color: var(--text);
+      border-bottom: 1px solid var(--border);
+      vertical-align: middle;
+    }
+
+    .team-table tr:last-child td { border-bottom: none; }
+
+    .team-table tr:hover td { background: #F8FAFC; }
+
+    .rep-name-cell {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .rep-actions {
+      display: flex;
+      gap: 6px;
+      justify-content: flex-end;
+    }
+
+    /* Modal */
+    .modal-backdrop {
+      display: none;
+      position: fixed; inset: 0;
+      background: rgba(15,45,69,.45);
+      z-index: 400;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal-backdrop.open { display: flex; }
+
+    .modal {
+      background: var(--surface);
+      border-radius: 14px;
+      box-shadow: var(--shadow-lg);
+      width: 420px;
+      max-width: calc(100vw - 32px);
+      padding: 28px;
+      position: relative;
+    }
+
+    .modal h3 {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 18px;
+    }
+
+    .modal .form-group {
+      margin-bottom: 14px;
+    }
+
+    .modal .form-group label {
+      display: block;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: .5px;
+      margin-bottom: 5px;
+    }
+
+    .modal .form-group input {
+      width: 100%;
+      padding: 9px 12px;
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      font-size: 13px;
+      font-family: inherit;
+      color: var(--text);
+      outline: none;
+      transition: border-color .15s;
+    }
+
+    .modal .form-group input:focus { border-color: var(--teal); }
+
+    .modal .form-group .field-hint {
+      font-size: 11px;
+      color: var(--muted);
+      margin-top: 4px;
+    }
+
+    .modal-error {
+      display: none;
+      background: #FFF5F5;
+      border: 1px solid #FED7D7;
+      color: #c53030;
+      border-radius: 7px;
+      padding: 8px 12px;
+      font-size: 12px;
+      margin-bottom: 12px;
+    }
+
+    .modal-error.visible { display: block; }
+
+    .modal-actions {
+      display: flex;
+      gap: 8px;
+      justify-content: flex-end;
+      margin-top: 20px;
+    }
+
+    .modal-close-btn {
+      position: absolute;
+      top: 16px; right: 16px;
+      background: none; border: none; cursor: pointer;
+      color: var(--muted); padding: 4px;
+      border-radius: 6px;
+    }
+
+    .modal-close-btn:hover { background: var(--bg); }
+
+    /* Delete confirm */
+    .delete-confirm { text-align: center; padding: 8px 0; }
+    .delete-confirm p { font-size: 14px; color: var(--text); margin-bottom: 6px; }
+    .delete-confirm span { font-size: 12px; color: var(--muted); }
+
+    /* Admin row */
+    .admin-row td { background: #F0F6FF; }
+    .admin-row:hover td { background: #E8F0FC; }
+
+    /* Section separator */
+    .team-section { margin-top: 36px; }
+    .team-section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border);
+    }
+    .team-section-header h3 { font-size: 15px; font-weight: 700; color: var(--navy); }
+    .team-section-header p  { font-size: 12px; color: var(--muted); margin-top: 2px; }
+
+    /* Com rep row highlight */
+    .com-row td { background: #FFFBEB; }
+    .com-row:hover td { background: #FEF3C7; }
+
+    /* Password cell */
+    .pwd-cell { font-family: monospace; font-size: 12px; color: var(--muted); }
+
+    /* Scrollable table container */
+    .table-scroll-wrap {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      border-radius: var(--radius);
+    }
+
+    @media (max-width: 768px) {
+      .team-content { padding: 16px; }
+      .team-header { flex-wrap: wrap; gap: 10px; }
+      .team-section-header { flex-wrap: wrap; gap: 10px; }
+    }
+  </style>
+</head>
+<body>
+<div class="crm-layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+  <main class="crm-main">
+    <div class="topbar">
+      <div class="topbar-left">
+        <button class="btn-hamburger" id="sidebarToggle" aria-label="Toggle menu">
+          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
+          </svg>
+        </button>
+        <span class="topbar-title">Team Management</span>
+      </div>
+      <div class="topbar-right" id="topbarRight"></div>
+    </div>
+
+    <div class="team-content">
+      <div class="team-header">
+        <div>
+          <h2>Representatives</h2>
+          <p>Manage the sales reps who handle leads in the CRM.</p>
+        </div>
+        <button class="btn btn-primary btn-sm" onclick="openAddModal()">
+          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+            <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+          </svg>
+          Add Representative
+        </button>
+      </div>
+
+      <div class="table-scroll-wrap">
+        <table class="team-table" id="teamTable">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Role</th>
+              <th>Leads</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="teamBody"></tbody>
+        </table>
+      </div>
+
+      <!-- Commercial Representatives -->
+      <div class="team-section">
+        <div class="team-section-header">
+          <div>
+            <h3>Commercial Representatives</h3>
+            <p>Manage the commercial reps who handle exhibitor accounts.</p>
+          </div>
+          <button class="btn btn-primary btn-sm" onclick="openAddComModal()">
+            <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+              <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+            </svg>
+            Add Com. Rep
+          </button>
+        </div>
+        <div class="table-scroll-wrap">
+          <table class="team-table" id="comRepTable">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Password</th>
+                <th>Exhibitors</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="comRepBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<div id="toast-container"></div>
+
+<!-- Add / Edit Modal -->
+<div class="modal-backdrop" id="repModal">
+  <div class="modal">
+    <button class="modal-close-btn" onclick="closeModal()">
+      <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+      </svg>
+    </button>
+    <h3 id="modalTitle">Add Representative</h3>
+    <div class="modal-error" id="modalError"></div>
+    <div class="form-group">
+      <label>Full Name</label>
+      <input type="text" id="repName" placeholder="e.g. Sara Idrissi">
+    </div>
+    <div class="form-group">
+      <label>Email Address</label>
+      <input type="email" id="repEmail" placeholder="e.g. sara@askhealth.com">
+    </div>
+    <div class="form-group">
+      <label id="repPasswordLabel">Password</label>
+      <input type="password" id="repPassword" placeholder="••••••••">
+      <div class="field-hint" id="repPasswordHint"></div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost btn-sm" onclick="closeModal()">Cancel</button>
+      <button class="btn btn-primary btn-sm" id="modalSaveBtn" onclick="saveRep()">Add Representative</button>
+    </div>
+  </div>
+</div>
+
+<!-- Add / Edit Com Rep Modal -->
+<div class="modal-backdrop" id="comModal">
+  <div class="modal">
+    <button class="modal-close-btn" onclick="closeComModal()">
+      <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+      </svg>
+    </button>
+    <h3 id="comModalTitle">Add Commercial Representative</h3>
+    <div class="modal-error" id="comModalError"></div>
+    <div class="form-group">
+      <label>Full Name</label>
+      <input type="text" id="comName" placeholder="e.g. Alex Martins">
+    </div>
+    <div class="form-group">
+      <label>Email Address</label>
+      <input type="email" id="comEmail" placeholder="e.g. alex@askhealth.com">
+    </div>
+    <div class="form-group">
+      <label id="comPasswordLabel">Password</label>
+      <input type="password" id="comPassword" placeholder="••••••••">
+      <div class="field-hint" id="comPasswordHint"></div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost btn-sm" onclick="closeComModal()">Cancel</button>
+      <button class="btn btn-primary btn-sm" id="comModalSaveBtn" onclick="saveComRep()">Add Rep</button>
+    </div>
+  </div>
+</div>
+
+<!-- Delete Com Rep Confirm Modal -->
+<div class="modal-backdrop" id="deleteComModal">
+  <div class="modal" style="width:360px;">
+    <h3>Remove Commercial Representative</h3>
+    <div class="delete-confirm">
+      <p>Remove <strong id="deleteComRepName"></strong> from the team?</p>
+      <span>Their existing exhibitor assignments will remain in the system.</span>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost btn-sm" onclick="closeDeleteComModal()">Cancel</button>
+      <button class="btn btn-sm" style="background:#e53e3e;color:#fff;" onclick="confirmDeleteCom()">Remove</button>
+    </div>
+  </div>
+</div>
+
+<!-- Delete Confirm Modal -->
+<div class="modal-backdrop" id="deleteModal">
+  <div class="modal" style="width:360px;">
+    <h3>Remove Representative</h3>
+    <div class="delete-confirm">
+      <p>Remove <strong id="deleteRepName"></strong> from the team?</p>
+      <span>Their existing leads will remain in the system.</span>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost btn-sm" onclick="closeDeleteModal()">Cancel</button>
+      <button class="btn btn-sm" style="background:#e53e3e;color:#fff;" onclick="confirmDelete()">Remove</button>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/db.js"></script>
+<script src="js/auth.js"></script>
+<script>
+  let session;
+  let editingId = null, deletingId = null, editingComId = null, deletingComId = null;
+
+  DB.init().then(function() {
+    if (!Auth.requireLogin()) return;
+    if (!Auth.isAdmin()) { window.location.href = 'kanban.html'; return; }
+    session = DB.getSession();
+    renderSidebar('team');
+    buildTopbarRight();
+    renderTeam();
+    renderComReps();
+  });
+
+  function buildTopbarRight() {
+    const el = document.getElementById('topbarRight');
+    const initials = session.name.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase();
+    el.innerHTML = `
+      <div class="avatar" style="background:${session.color || '#1A6FA3'}">${initials}</div>
+      <span style="font-size:13px;font-weight:600;color:#334155;">${session.name}</span>
+      <span class="role-badge admin">Admin</span>
+    `;
+  }
+
+  function renderTeam() {
+    const users = DB.getUsers();
+    const leads = DB.getLeads();
+    const tbody = document.getElementById('teamBody');
+    tbody.innerHTML = '';
+
+    users.filter(u => u.role !== 'exhibitor').forEach(user => {
+      const leadCount = leads.filter(l => l.assignedTo === user.id).length;
+      const initials  = user.name.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase();
+      const isAdmin   = user.role === 'admin';
+      const roleLabel = user.role === 'admin' ? 'Admin' : user.role === 'com_rep' ? 'Com. Rep' : 'Rep';
+
+      const tr = document.createElement('tr');
+      if (isAdmin) tr.className = 'admin-row';
+      tr.innerHTML = `
+        <td>
+          <div class="rep-name-cell">
+            <div class="avatar avatar-sm" style="background:${user.color}">${initials}</div>
+            <span style="font-weight:600;">${escHtml(user.name)}</span>
+          </div>
+        </td>
+        <td style="color:var(--muted);">${escHtml(user.email)}</td>
+        <td>
+          <span class="role-badge ${user.role}">${roleLabel}</span>
+        </td>
+        <td style="color:var(--muted);">${leadCount} lead${leadCount !== 1 ? 's' : ''}</td>
+        <td>
+          <div class="rep-actions">
+            <button class="btn btn-ghost btn-sm" onclick="openEditModal('${user.id}')">
+              <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+              </svg>
+              Edit
+            </button>
+            ${!isAdmin ? `
+            <button class="btn btn-sm" style="background:#FFF5F5;color:#c53030;border:1px solid #FED7D7;" onclick="openDeleteModal('${user.id}', '${escAttr(user.name)}')">
+              <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/>
+                <path d="M10 11v6M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/>
+              </svg>
+              Remove
+            </button>` : ''}
+          </div>
+        </td>
+      `;
+      tbody.appendChild(tr);
+    });
+  }
+
+  // ── Add modal ─────────────────────────────────────────────
+
+  function openAddModal() {
+    editingId = null;
+    document.getElementById('modalTitle').textContent = 'Add Representative';
+    document.getElementById('modalSaveBtn').textContent = 'Add Representative';
+    document.getElementById('repName').value = '';
+    document.getElementById('repEmail').value = '';
+    document.getElementById('repPassword').value = '';
+    document.getElementById('repPassword').placeholder = '••••••••';
+    document.getElementById('repPasswordHint').textContent = '';
+    document.getElementById('repPasswordLabel').textContent = 'Password';
+    document.getElementById('modalError').classList.remove('visible');
+    document.getElementById('repModal').classList.add('open');
+    setTimeout(() => document.getElementById('repName').focus(), 50);
+  }
+
+  function openEditModal(id) {
+    const user = DB.getUser(id);
+    if (!user) return;
+    editingId = id;
+    document.getElementById('modalTitle').textContent = 'Edit Representative';
+    document.getElementById('modalSaveBtn').textContent = 'Save Changes';
+    document.getElementById('repName').value  = user.name;
+    document.getElementById('repEmail').value = user.email;
+    document.getElementById('repPassword').value = '';
+    document.getElementById('repPassword').placeholder = 'Leave blank to keep current';
+    document.getElementById('repPasswordHint').textContent = 'Leave blank to keep the current password.';
+    document.getElementById('repPasswordLabel').textContent = 'New Password';
+    document.getElementById('modalError').classList.remove('visible');
+    document.getElementById('repModal').classList.add('open');
+    setTimeout(() => document.getElementById('repName').focus(), 50);
+  }
+
+  function closeModal() {
+    document.getElementById('repModal').classList.remove('open');
+    editingId = null;
+  }
+
+  function saveRep() {
+    const name     = document.getElementById('repName').value.trim();
+    const email    = document.getElementById('repEmail').value.trim();
+    const password = document.getElementById('repPassword').value;
+    const errEl    = document.getElementById('modalError');
+
+    errEl.classList.remove('visible');
+
+    if (!name)  { showFieldError(errEl, 'Name is required.'); return; }
+    if (!email) { showFieldError(errEl, 'Email is required.'); return; }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { showFieldError(errEl, 'Enter a valid email address.'); return; }
+
+    if (editingId) {
+      // Edit
+      const fields = { name, email };
+      if (password) fields.password = password;
+      const result = DB.updateUser(editingId, fields);
+      if (!result.ok) { showFieldError(errEl, result.error); return; }
+      showToast('Representative updated.', 'success');
+    } else {
+      // Add
+      if (!password) { showFieldError(errEl, 'Password is required.'); return; }
+      const result = DB.createUser({ name, email, password });
+      if (!result.ok) { showFieldError(errEl, result.error); return; }
+      showToast('Representative added.', 'success');
+    }
+
+    closeModal();
+    renderTeam();
+  }
+
+  function showFieldError(el, msg) {
+    el.textContent = msg;
+    el.classList.add('visible');
+  }
+
+  // ── Delete modal ──────────────────────────────────────────
+
+  function openDeleteModal(id, name) {
+    deletingId = id;
+    document.getElementById('deleteRepName').textContent = name;
+    document.getElementById('deleteModal').classList.add('open');
+  }
+
+  function closeDeleteModal() {
+    document.getElementById('deleteModal').classList.remove('open');
+    deletingId = null;
+  }
+
+  function confirmDelete() {
+    if (!deletingId) return;
+    const result = DB.deleteUser(deletingId);
+    if (!result.ok) { showToast(result.error, 'error'); return; }
+    showToast('Representative removed.', 'success');
+    closeDeleteModal();
+    renderTeam();
+  }
+
+  // Close modals on backdrop click
+  document.getElementById('repModal').addEventListener('click', function(e) {
+    if (e.target === this) closeModal();
+  });
+  document.getElementById('deleteModal').addEventListener('click', function(e) {
+    if (e.target === this) closeDeleteModal();
+  });
+
+  // Save on Enter
+  document.getElementById('repModal').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') saveRep();
+    if (e.key === 'Escape') closeModal();
+  });
+
+  // ── Commercial Representatives ────────────────────────────
+
+  function renderComReps() {
+    const users     = DB.getUsers().filter(u => u.role === 'com_rep');
+    const exhibitors= DB.getExhibitors();
+    const tbody     = document.getElementById('comRepBody');
+    tbody.innerHTML = '';
+
+    if (!users.length) {
+      tbody.innerHTML = `<tr><td colspan="5" style="text-align:center;color:var(--muted);font-size:12px;padding:20px;">No commercial representatives added yet.</td></tr>`;
+      return;
+    }
+
+    users.forEach(user => {
+      const exCount = exhibitors.filter(e => e.assignedTo === user.id).length;
+      const initials = user.name.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase();
+      const tr = document.createElement('tr');
+      tr.className = 'com-row';
+      tr.innerHTML = `
+        <td>
+          <div class="rep-name-cell">
+            <div class="avatar avatar-sm" style="background:${user.color}">${initials}</div>
+            <span style="font-weight:600;">${escHtml(user.name)}</span>
+          </div>
+        </td>
+        <td style="color:var(--muted);">${escHtml(user.email)}</td>
+        <td class="pwd-cell">${escHtml(user.password)}</td>
+        <td style="color:var(--muted);">${exCount} exhibitor${exCount !== 1 ? 's' : ''}</td>
+        <td>
+          <div class="rep-actions">
+            <button class="btn btn-ghost btn-sm" onclick="openEditComModal('${user.id}')">
+              <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+              </svg>
+              Edit
+            </button>
+            <button class="btn btn-sm" style="background:#FFF5F5;color:#c53030;border:1px solid #FED7D7;" onclick="openDeleteComModal('${user.id}', '${escAttr(user.name)}')">
+              <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/>
+                <path d="M10 11v6M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/>
+              </svg>
+              Remove
+            </button>
+          </div>
+        </td>
+      `;
+      tbody.appendChild(tr);
+    });
+  }
+
+  function openAddComModal() {
+    editingComId = null;
+    document.getElementById('comModalTitle').textContent = 'Add Commercial Representative';
+    document.getElementById('comModalSaveBtn').textContent = 'Add Rep';
+    document.getElementById('comName').value = '';
+    document.getElementById('comEmail').value = '';
+    document.getElementById('comPassword').value = '';
+    document.getElementById('comPassword').placeholder = '••••••••';
+    document.getElementById('comPasswordHint').textContent = '';
+    document.getElementById('comPasswordLabel').textContent = 'Password';
+    document.getElementById('comModalError').classList.remove('visible');
+    document.getElementById('comModal').classList.add('open');
+    setTimeout(() => document.getElementById('comName').focus(), 50);
+  }
+
+  function openEditComModal(id) {
+    const user = DB.getUser(id);
+    if (!user) return;
+    editingComId = id;
+    document.getElementById('comModalTitle').textContent = 'Edit Commercial Representative';
+    document.getElementById('comModalSaveBtn').textContent = 'Save Changes';
+    document.getElementById('comName').value  = user.name;
+    document.getElementById('comEmail').value = user.email;
+    document.getElementById('comPassword').value = '';
+    document.getElementById('comPassword').placeholder = 'Leave blank to keep current';
+    document.getElementById('comPasswordHint').textContent = 'Leave blank to keep the current password.';
+    document.getElementById('comPasswordLabel').textContent = 'New Password';
+    document.getElementById('comModalError').classList.remove('visible');
+    document.getElementById('comModal').classList.add('open');
+    setTimeout(() => document.getElementById('comName').focus(), 50);
+  }
+
+  function closeComModal() {
+    document.getElementById('comModal').classList.remove('open');
+    editingComId = null;
+  }
+
+  function saveComRep() {
+    const name     = document.getElementById('comName').value.trim();
+    const email    = document.getElementById('comEmail').value.trim();
+    const password = document.getElementById('comPassword').value;
+    const errEl    = document.getElementById('comModalError');
+    errEl.classList.remove('visible');
+
+    if (!name)  { showFieldError(errEl, 'Name is required.'); return; }
+    if (!email) { showFieldError(errEl, 'Email is required.'); return; }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { showFieldError(errEl, 'Enter a valid email address.'); return; }
+
+    if (editingComId) {
+      const fields = { name, email };
+      if (password) fields.password = password;
+      const result = DB.updateUser(editingComId, fields);
+      if (!result.ok) { showFieldError(errEl, result.error); return; }
+      showToast('Commercial rep updated.', 'success');
+    } else {
+      if (!password) { showFieldError(errEl, 'Password is required.'); return; }
+      const result = DB.createUser({ name, email, password, role: 'com_rep' });
+      if (!result.ok) { showFieldError(errEl, result.error); return; }
+      showToast('Commercial rep added.', 'success');
+    }
+
+    closeComModal();
+    renderComReps();
+  }
+
+  function openDeleteComModal(id, name) {
+    deletingComId = id;
+    document.getElementById('deleteComRepName').textContent = name;
+    document.getElementById('deleteComModal').classList.add('open');
+  }
+
+  function closeDeleteComModal() {
+    document.getElementById('deleteComModal').classList.remove('open');
+    deletingComId = null;
+  }
+
+  function confirmDeleteCom() {
+    if (!deletingComId) return;
+    const result = DB.deleteUser(deletingComId);
+    if (!result.ok) { showToast(result.error, 'error'); return; }
+    showToast('Commercial rep removed.', 'success');
+    closeDeleteComModal();
+    renderComReps();
+  }
+
+  document.getElementById('comModal').addEventListener('click', function(e) { if (e.target === this) closeComModal(); });
+  document.getElementById('comModal').addEventListener('keydown', function(e) { if (e.key === 'Enter') saveComRep(); if (e.key === 'Escape') closeComModal(); });
+  document.getElementById('deleteComModal').addEventListener('click', function(e) { if (e.target === this) closeDeleteComModal(); });
+
+  // ── Utilities ─────────────────────────────────────────────
+
+  function escHtml(str) {
+    if (!str) return '';
+    return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
+  function escAttr(str) {
+    return escHtml(str).replace(/'/g, '&#39;');
+  }
+</script>
+</body>
+</html>

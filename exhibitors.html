@@ -1,0 +1,1154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Exhibit at ASKHEALTH 2026 — Turkish Clinics &amp; Hospitals | August 15, Casablanca</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Barlow:wght@800;900&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --primary:  #1A6FA3;
+      --teal:     #2AABDB;
+      --navy:     #0F2D45;
+      --bg:       #F7FAFC;
+      --surface:  #FFFFFF;
+      --text:     #1A202C;
+      --muted:    #64748B;
+      --border:   #E2E8F0;
+      --radius:   14px;
+    }
+
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', sans-serif; background: var(--surface); color: var(--text); line-height: 1.6; }
+
+    /* ── NAV ─────────────────────────────────────────── */
+    nav {
+      position: sticky; top: 0; z-index: 200;
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      height: 84px;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 5%;
+      box-shadow: 0 1px 10px rgba(0,0,0,.06);
+    }
+
+    .nav-logo { display: flex; align-items: center; text-decoration: none; }
+    .nav-logo img { height: 56px; width: auto; display: block; }
+
+    .nav-links { display: flex; align-items: center; gap: 2rem; }
+    .nav-links a { text-decoration: none; color: var(--muted); font-weight: 500; font-size: .93rem; transition: color .2s; }
+    .nav-links a:hover { color: var(--primary); }
+
+    .nav-cta {
+      background: var(--teal); color: #fff !important;
+      padding: .5rem 1.3rem; border-radius: 50px;
+      font-size: .88rem !important; font-weight: 700 !important;
+      transition: background .2s, transform .15s !important;
+      box-shadow: 0 3px 12px rgba(42,171,219,.35);
+    }
+    .nav-cta:hover { background: #1d96c4 !important; transform: translateY(-1px); }
+
+    .nav-login-btn {
+      border: 1.5px solid var(--primary); color: var(--primary) !important;
+      padding: .45rem 1.1rem; border-radius: 50px;
+      font-size: .88rem !important; font-weight: 600 !important;
+      transition: background .2s, color .2s !important;
+      background: transparent;
+    }
+    .nav-login-btn:hover { background: var(--primary) !important; color: #fff !important; }
+
+    .hamburger { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 4px; }
+    .hamburger span { display: block; width: 24px; height: 2px; background: var(--navy); border-radius: 2px; }
+
+    /* ── HERO ────────────────────────────────────────── */
+    #hero {
+      background: linear-gradient(135deg, var(--navy) 0%, #1a4a6e 55%, #1e6a9a 100%);
+      min-height: 580px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      padding: 80px 5%;
+      position: relative;
+      overflow: hidden;
+    }
+
+    #hero .hero-bg-img {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%;
+      object-fit: cover;
+      opacity: 0.5; z-index: 1;
+      pointer-events: none;
+    }
+
+    #hero::before {
+      content: ''; position: absolute; top: -100px; right: 30%;
+      width: 420px; height: 420px;
+      border: 60px solid rgba(42,171,219,.08); border-radius: 50%;
+    }
+    #hero::after {
+      content: ''; position: absolute; bottom: -80px; left: -80px;
+      width: 300px; height: 300px;
+      background: radial-gradient(circle, rgba(42,171,219,.12) 0%, transparent 70%);
+      border-radius: 50%;
+    }
+
+    .hero-content { position: relative; z-index: 2; }
+
+    .hero-pill {
+      display: inline-flex; align-items: center; gap: .5rem;
+      background: rgba(42,171,219,.15); border: 1px solid rgba(42,171,219,.3);
+      color: var(--teal); padding: .35rem 1rem; border-radius: 50px;
+      font-size: .82rem; font-weight: 600; letter-spacing: .3px; margin-bottom: 1.4rem;
+    }
+    .hero-pill .dot { width: 7px; height: 7px; background: var(--teal); border-radius: 50%; }
+
+    #hero h1 { font-size: clamp(2rem, 4.5vw, 3rem); font-weight: 800; color: #fff; line-height: 1.15; letter-spacing: -1px; margin-bottom: 1rem; }
+    #hero h1 span { color: var(--teal); }
+
+    .hero-desc { color: rgba(255,255,255,.65); font-size: 1rem; max-width: 440px; margin-bottom: 2rem; }
+
+    .btn-hero {
+      display: inline-flex; align-items: center; gap: .6rem;
+      background: var(--surface); color: var(--navy);
+      padding: .75rem 1.8rem; border-radius: 50px;
+      font-weight: 700; font-size: .95rem; text-decoration: none;
+      transition: background .2s, transform .15s, box-shadow .2s;
+      box-shadow: 0 4px 16px rgba(0,0,0,.2);
+    }
+    .btn-hero:hover { background: var(--teal); color: #fff; transform: translateY(-2px); }
+    .btn-hero svg { width: 16px; height: 16px; transition: transform .2s; }
+    .btn-hero:hover svg { transform: translateX(3px); }
+
+    .hero-visual { position: relative; z-index: 2; display: flex; justify-content: flex-end; align-items: center; }
+
+    .hero-card-wrap {
+      background: rgba(255,255,255,.07); backdrop-filter: blur(8px);
+      border: 1px solid rgba(255,255,255,.12); border-radius: 20px;
+      padding: 2rem; max-width: 340px; width: 100%;
+    }
+
+    .hero-stat-row { display: flex; gap: 1rem; margin-bottom: 1.5rem; }
+    .hero-stat { background: var(--surface); border-radius: 12px; padding: 1rem 1.2rem; flex: 1; text-align: center; box-shadow: 0 4px 16px rgba(0,0,0,.15); }
+    .hero-stat .num { font-size: 1.6rem; font-weight: 800; color: var(--primary); display: block; line-height: 1; }
+    .hero-stat .lbl { font-size: .72rem; color: var(--muted); font-weight: 500; margin-top: .25rem; }
+
+    .hero-highlight { background: var(--teal); border-radius: 12px; padding: 1.2rem; color: #fff; }
+    .hero-highlight strong { font-size: 1rem; display: block; margin-bottom: .25rem; }
+    .hero-highlight span { font-size: .82rem; opacity: .85; }
+
+    /* ── FEATURE CARDS (mirror style) ───────────────── */
+    .features {
+      background: linear-gradient(180deg, #0F2D45 0%, #143957 100%);
+      padding: 80px 5%;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      position: relative;
+    }
+    .features::before {
+      content: '';
+      position: absolute; top: 0; left: 50%;
+      width: 1px; height: 100%;
+      background: linear-gradient(180deg, transparent, rgba(255,255,255,.08), transparent);
+      pointer-events: none;
+    }
+    .feat-card {
+      position: relative;
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid rgba(255,255,255,.12);
+      border-radius: 16px;
+      padding: 2.2rem 1.8rem;
+      display: flex; flex-direction: column; gap: .75rem;
+      overflow: hidden;
+      box-shadow: 0 10px 40px rgba(0,0,0,.25);
+    }
+    .feat-card::before {
+      content: '';
+      position: absolute; top: 0; left: 12%; right: 12%; height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,.55), transparent);
+    }
+    .feat-card::after {
+      content: '';
+      position: absolute; left: 0; right: 0; bottom: 0; height: 55%;
+      background: linear-gradient(180deg, transparent 0%, rgba(255,255,255,.04) 100%);
+      pointer-events: none;
+    }
+    .feat-card.mirror-left  { background: linear-gradient(135deg, rgba(255,255,255,.10), rgba(255,255,255,.03)); }
+    .feat-card.mirror-right { background: linear-gradient(-135deg, rgba(255,255,255,.10), rgba(255,255,255,.03)); }
+    .feat-card.mirror-center {
+      background: linear-gradient(180deg, rgba(42,171,219,.20), rgba(42,171,219,.06));
+      border-color: rgba(42,171,219,.35);
+    }
+    .feat-icon {
+      width: 48px; height: 48px; border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      background: rgba(42,171,219,.18);
+      margin-bottom: .5rem;
+      position: relative; z-index: 1;
+    }
+    .feat-card.mirror-center .feat-icon { background: rgba(255,255,255,.18); }
+    .feat-icon svg { width: 22px; height: 22px; stroke: var(--teal); }
+    .feat-card.mirror-center .feat-icon svg { stroke: #fff; }
+    .feat-card h3 { font-size: 1.05rem; font-weight: 700; color: #fff; position: relative; z-index: 1; }
+    .feat-card p  { font-size: .88rem; line-height: 1.6; color: rgba(255,255,255,.75); position: relative; z-index: 1; }
+    @media (max-width: 900px) {
+      .features { grid-template-columns: 1fr; padding: 60px 5%; gap: 1.2rem; }
+      .features::before { display: none; }
+    }
+
+    /* ── PACKS ───────────────────────────────────────── */
+    #packs {
+      background: var(--bg);
+      padding: 96px 5%;
+    }
+
+    .packs-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      max-width: 1100px; margin: 0 auto;
+    }
+
+    .pack-card {
+      background: var(--surface);
+      border: 2px solid var(--border);
+      border-radius: 20px;
+      padding: 2rem 1.75rem;
+      display: flex; flex-direction: column;
+      transition: transform .2s, box-shadow .2s, border-color .2s;
+      position: relative;
+    }
+    .pack-card:hover { transform: translateY(-6px); box-shadow: 0 16px 40px rgba(0,0,0,.1); border-color: var(--teal); }
+    .pack-card.featured { border-color: var(--teal); box-shadow: 0 8px 32px rgba(42,171,219,.2); }
+
+    .pack-badge {
+      position: absolute; top: -12px; left: 50%; transform: translateX(-50%);
+      background: var(--teal); color: #fff;
+      font-size: .72rem; font-weight: 700; letter-spacing: .5px; text-transform: uppercase;
+      padding: .25rem .8rem; border-radius: 50px;
+      white-space: nowrap;
+    }
+    .pack-badge.premium { background: var(--navy); }
+
+    .pack-name { font-size: 1rem; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .6px; margin-bottom: .4rem; }
+    .pack-price { font-size: 2.4rem; font-weight: 800; color: var(--navy); letter-spacing: -1px; margin-bottom: 1.2rem; line-height: 1; }
+    .pack-price sup { font-size: 1.1rem; font-weight: 600; vertical-align: top; margin-top: .4rem; display: inline-block; }
+
+    .pack-features { list-style: none; display: flex; flex-direction: column; gap: .55rem; margin-bottom: 1.75rem; flex: 1; }
+    .pack-features li { display: flex; align-items: center; gap: .65rem; font-size: .88rem; color: var(--text); }
+    .pack-features li svg { width: 16px; height: 16px; stroke: var(--teal); flex-shrink: 0; }
+    .pack-features li.dim { color: var(--muted); }
+    .pack-features li.dim svg { stroke: var(--border); }
+
+    .pack-cta {
+      display: block; text-align: center;
+      padding: .75rem 1.5rem; border-radius: 50px;
+      font-size: .9rem; font-weight: 700;
+      text-decoration: none;
+      transition: background .2s, transform .15s;
+    }
+    .pack-cta.primary { background: var(--teal); color: #fff; box-shadow: 0 4px 14px rgba(42,171,219,.35); }
+    .pack-cta.primary:hover { background: #1d96c4; transform: translateY(-1px); }
+    .pack-cta.outline { border: 1.5px solid var(--primary); color: var(--primary); }
+    .pack-cta.outline:hover { background: var(--primary); color: #fff; }
+
+    .pack-note { text-align: center; margin-top: 2rem; font-size: .88rem; color: var(--muted); }
+    .pack-note strong { color: var(--primary); }
+
+    /* ── INCLUSIONS / ABOUT ──────────────────────────── */
+    #inclusions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: center;
+      padding: 96px 5%;
+      background: var(--surface);
+    }
+
+    .about-image-wrap { position: relative; }
+
+    .stand-preview {
+      background: var(--bg);
+      border-radius: 20px;
+      padding: 2rem;
+      border: 1px solid var(--border);
+      position: relative;
+      aspect-ratio: 4/5;
+      display: flex; flex-direction: column;
+      gap: 1rem; justify-content: center;
+    }
+
+    .preview-item {
+      background: var(--surface);
+      border-radius: 12px; padding: 1rem 1.2rem;
+      display: flex; align-items: center; gap: .75rem;
+      box-shadow: 0 4px 16px rgba(0,0,0,.08);
+    }
+    .preview-item .check {
+      width: 30px; height: 30px; border-radius: 50%;
+      background: rgba(42,171,219,.1);
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    }
+    .preview-item .check svg { width: 16px; height: 16px; stroke: var(--teal); }
+    .preview-item-text strong { display: block; font-size: .9rem; font-weight: 700; color: var(--navy); }
+    .preview-item-text span { font-size: .78rem; color: var(--muted); }
+
+    .avail-badge {
+      position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%);
+      background: var(--surface); border-radius: 12px; padding: .75rem 1.2rem;
+      display: flex; align-items: center; gap: .75rem;
+      box-shadow: 0 8px 24px rgba(0,0,0,.12); white-space: nowrap;
+    }
+    .avail-badge .badge-icon { width: 36px; height: 36px; background: rgba(42,171,219,.1); border-radius: 8px; display: flex; align-items: center; justify-content: center; }
+    .avail-badge .badge-icon svg { width: 18px; height: 18px; stroke: var(--teal); }
+    .avail-badge strong { display: block; font-size: .9rem; font-weight: 700; color: var(--navy); }
+    .avail-badge span  { font-size: .75rem; color: var(--muted); }
+
+    .about-content .section-label {
+      display: inline-flex; align-items: center; gap: .4rem;
+      color: var(--teal); font-size: .8rem; font-weight: 700;
+      letter-spacing: .5px; text-transform: uppercase; margin-bottom: .75rem;
+    }
+    .about-content .section-label .dot { width: 7px; height: 7px; background: var(--teal); border-radius: 50%; }
+    .about-content h2 { font-size: clamp(1.6rem, 3vw, 2.2rem); font-weight: 800; letter-spacing: -.5px; color: var(--navy); margin-bottom: 1rem; line-height: 1.2; }
+    .about-content > p { color: var(--muted); font-size: .97rem; margin-bottom: 1.5rem; }
+
+    .check-list { list-style: none; display: flex; flex-direction: column; gap: .6rem; margin-bottom: 2rem; }
+    .check-list li { display: flex; align-items: center; gap: .75rem; font-size: .93rem; color: var(--text); }
+    .check-list li svg { flex-shrink: 0; width: 18px; height: 18px; background: rgba(42,171,219,.1); border-radius: 50%; padding: 3px; stroke: var(--teal); }
+
+    .about-footer { display: flex; align-items: center; gap: 1.5rem; border-top: 1px solid var(--border); padding-top: 1.5rem; }
+    .ceo-avatar { width: 48px; height: 48px; border-radius: 50%; background: #fff; display: flex; align-items: center; justify-content: center; border: 2px solid var(--border); overflow: hidden; }
+    .ceo-avatar img { width: 100%; height: 100%; object-fit: contain; padding: 4px; }
+    .ceo-info strong { display: block; font-size: .9rem; font-weight: 700; color: var(--navy); }
+    .ceo-info span   { font-size: .78rem; color: var(--muted); }
+
+    .btn-outline {
+      margin-left: auto;
+      display: inline-flex; align-items: center; gap: .5rem;
+      border: 1.5px solid var(--primary); color: var(--primary);
+      padding: .6rem 1.3rem; border-radius: 50px;
+      font-size: .88rem; font-weight: 700; text-decoration: none;
+      transition: background .2s, color .2s;
+    }
+    .btn-outline:hover { background: var(--primary); color: #fff; }
+    .btn-outline svg { width: 14px; height: 14px; transition: transform .2s; }
+    .btn-outline:hover svg { transform: translateX(3px); }
+
+    /* ── AUDIENCE (mirror marquee) ───────────────────── */
+    #audience {
+      background: linear-gradient(180deg, #0F2D45 0%, #143957 100%);
+      padding: 96px 0;
+    }
+
+    .section-header { text-align: center; margin-bottom: 3rem; padding: 0 5%; }
+    .section-header .section-label {
+      display: inline-flex; align-items: center; gap: .4rem;
+      color: var(--teal); font-size: .8rem; font-weight: 700;
+      letter-spacing: .5px; text-transform: uppercase; margin-bottom: .6rem;
+    }
+    .section-header .section-label .dot { width: 7px; height: 7px; background: var(--teal); border-radius: 50%; }
+    .section-header h2 { font-size: clamp(1.6rem, 3vw, 2.2rem); font-weight: 800; color: var(--navy); letter-spacing: -.5px; margin-bottom: .75rem; }
+    .section-header p  { color: var(--muted); max-width: 520px; margin: 0 auto; font-size: .95rem; }
+    #audience .section-header h2 { color: #fff; }
+    #audience .section-header p  { color: rgba(255,255,255,.7); }
+
+    .audience-marquee {
+      overflow: hidden;
+      position: relative;
+      width: 100%;
+      -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 6%, #000 94%, transparent 100%);
+              mask-image: linear-gradient(90deg, transparent 0, #000 6%, #000 94%, transparent 100%);
+    }
+    .audience-track {
+      display: flex;
+      gap: 1.5rem;
+      width: max-content;
+      animation: audience-scroll 60s linear infinite;
+      will-change: transform;
+    }
+    .audience-marquee:hover .audience-track { animation-play-state: paused; }
+    @keyframes audience-scroll {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+
+    .inst-card {
+      width: 320px; flex-shrink: 0;
+      position: relative; overflow: hidden;
+      background: linear-gradient(135deg, rgba(255,255,255,.10), rgba(255,255,255,.03));
+      border: 1px solid rgba(255,255,255,.12);
+      border-radius: 16px;
+      padding: 1.6rem;
+      display: flex; flex-direction: column; gap: .55rem;
+      box-shadow: 0 10px 40px rgba(0,0,0,.25);
+      transition: transform .25s ease, border-color .25s ease;
+    }
+    .inst-card::before {
+      content: ''; position: absolute; top: 0; left: 12%; right: 12%; height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,.55), transparent);
+    }
+    .inst-card::after {
+      content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 55%;
+      background: linear-gradient(180deg, transparent 0%, rgba(255,255,255,.04) 100%);
+      pointer-events: none;
+    }
+    .inst-card:hover { transform: translateY(-4px); border-color: rgba(42,171,219,.4); }
+    /* alternating mirror direction for visual rhythm */
+    .audience-track .inst-card:nth-child(even) { background: linear-gradient(-135deg, rgba(255,255,255,.10), rgba(255,255,255,.03)); }
+
+    .inst-header { display: flex; align-items: center; gap: .75rem; margin-bottom: .25rem; position: relative; z-index: 1; }
+    .inst-logo { width: 44px; height: 44px; border-radius: 10px; background: rgba(42,171,219,.18); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .inst-logo svg { width: 22px; height: 22px; stroke: var(--teal); }
+    .inst-card h3 { font-size: .98rem; font-weight: 700; color: #fff; line-height: 1.3; position: relative; z-index: 1; }
+    .inst-city { font-size: .8rem; color: rgba(255,255,255,.5); display: flex; align-items: center; gap: .3rem; position: relative; z-index: 1; }
+    .inst-city svg { stroke: rgba(255,255,255,.5); }
+    .specialty-badge { display: inline-block; background: rgba(42,171,219,.18); color: var(--teal); font-size: .75rem; font-weight: 600; padding: .22rem .7rem; border-radius: 50px; margin-top: .25rem; width: fit-content; position: relative; z-index: 1; }
+    .inst-role { font-size: .82rem; color: rgba(255,255,255,.72); line-height: 1.5; margin-top: .25rem; position: relative; z-index: 1; }
+
+    /* ── CREDIBILITY ─────────────────────────────────── */
+    #credibility { background: var(--surface); padding: 96px 5%; }
+
+    .stats-row {
+      display: grid; grid-template-columns: repeat(2, 1fr);
+      gap: 1.5rem; max-width: 640px; margin: 0 auto 3rem;
+    }
+    .stats-row .hero-stat { box-shadow: 0 4px 16px rgba(0,0,0,.08); }
+
+    .quote-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; max-width: 900px; margin: 0 auto; }
+    .quote-card { background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 2rem; }
+    .quote-mark { color: var(--teal); font-size: 3rem; line-height: 1; font-family: Georgia, serif; display: block; margin-bottom: .5rem; }
+    .quote-text { font-size: .93rem; color: var(--text); line-height: 1.7; margin-bottom: 1.5rem; font-style: italic; }
+    .quote-author { display: flex; align-items: center; gap: .75rem; }
+    .quote-author-avatar { width: 38px; height: 38px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; color: #fff; flex-shrink: 0; }
+    .quote-author-info strong { display: block; font-size: .88rem; font-weight: 700; color: var(--navy); }
+    .quote-author-info span   { font-size: .78rem; color: var(--muted); }
+
+    /* ── REGISTER / APPLY ────────────────────────────── */
+    #apply {
+      background: linear-gradient(to bottom, #2AABDB 0%, #1a6a9a 35%, #0F2D45 75%, #071e30 100%);
+      padding: 96px 5%;
+      position: relative; overflow: hidden;
+    }
+    #apply::before {
+      content: ''; position: absolute; top: -100px; right: -100px;
+      width: 400px; height: 400px;
+      border: 60px solid rgba(42,171,219,.07); border-radius: 50%;
+    }
+
+    .register-inner { max-width: 680px; margin: 0 auto; position: relative; z-index: 1; }
+    .register-inner .section-label {
+      display: inline-flex; align-items: center; gap: .4rem;
+      background: rgba(42,171,219,.15); border: 1px solid rgba(42,171,219,.3);
+      color: var(--teal); font-size: .8rem; font-weight: 700;
+      letter-spacing: .5px; text-transform: uppercase;
+      padding: .3rem .8rem; border-radius: 50px; margin-bottom: .75rem;
+    }
+    .register-inner .section-label .dot { width: 7px; height: 7px; background: var(--teal); border-radius: 50%; }
+    .register-inner h2 { color: #fff; font-size: clamp(1.6rem, 3vw, 2.2rem); font-weight: 800; letter-spacing: -.5px; margin-bottom: .75rem; }
+    .register-inner > p { color: rgba(255,255,255,.65); margin-bottom: 2rem; font-size: .95rem; }
+
+    .reg-form { background: var(--surface); border-radius: 20px; padding: 2.5rem; box-shadow: 0 20px 60px rgba(0,0,0,.25); }
+
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; margin-bottom: 1.2rem; }
+    .form-group { display: flex; flex-direction: column; gap: .4rem; margin-bottom: 1.2rem; }
+    .form-row .form-group { margin-bottom: 0; }
+    label { font-size: .83rem; font-weight: 600; color: var(--navy); }
+
+    input, select, textarea {
+      width: 100%; padding: .7rem 1rem;
+      border: 1.5px solid var(--border); border-radius: 10px;
+      font-family: inherit; font-size: .93rem; color: var(--text);
+      background: var(--bg); outline: none;
+      transition: border-color .2s, box-shadow .2s;
+    }
+    input:focus, select:focus, textarea:focus { border-color: var(--teal); box-shadow: 0 0 0 3px rgba(42,171,219,.15); }
+    textarea { resize: vertical; min-height: 100px; }
+
+    .other-input { display: none; }
+    .other-input.visible { display: block; }
+
+    .btn-submit {
+      width: 100%; padding: .9rem;
+      background: var(--teal); color: #fff;
+      font-size: .97rem; font-weight: 700;
+      border: none; border-radius: 50px; cursor: pointer;
+      margin-top: .5rem;
+      transition: background .2s, transform .15s;
+      box-shadow: 0 4px 14px rgba(42,171,219,.4);
+    }
+    .btn-submit:hover { background: #1d96c4; transform: translateY(-1px); }
+
+    .thank-you { display: none; text-align: center; padding: 2.5rem 1rem; }
+    .thank-you .ty-icon { width: 64px; height: 64px; margin: 0 auto 1rem; background: rgba(42,171,219,.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+    .thank-you .ty-icon svg { width: 32px; height: 32px; stroke: var(--teal); }
+    .thank-you h3 { font-size: 1.4rem; color: var(--navy); margin-bottom: .5rem; }
+    .thank-you p  { color: var(--muted); font-size: .93rem; margin-bottom: .5rem; }
+    .creds-box { background: var(--bg); border-radius: 12px; padding: 1.2rem 1.5rem; margin: 1rem auto; max-width: 380px; text-align: left; border: 1px solid var(--border); }
+    .creds-box p { font-size: .9rem; color: var(--text); margin-bottom: .35rem; }
+    .creds-box code { background: rgba(42,171,219,.12); color: var(--primary); padding: .1rem .4rem; border-radius: 5px; font-family: monospace; font-size: .92rem; }
+    .creds-box strong { color: var(--navy); }
+    .btn-portal { display: inline-flex; align-items: center; gap: .5rem; background: var(--teal); color: #fff; padding: .65rem 1.5rem; border-radius: 50px; font-size: .9rem; font-weight: 700; text-decoration: none; margin-top: 1rem; transition: background .2s; }
+    .btn-portal:hover { background: #1d96c4; }
+
+    /* ── FOOTER ──────────────────────────────────────── */
+    footer { background: #071e30; color: rgba(255,255,255,.6); padding: 3rem 5%; text-align: center; }
+    .footer-logo { display: inline-flex; align-items: center; text-decoration: none; margin-bottom: .6rem; }
+    .footer-logo img { height: 110px; width: auto; display: block; filter: brightness(0) invert(1); }
+    footer p { font-size: .87rem; margin-bottom: .35rem; }
+    footer a { color: var(--teal); text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+    .footer-divider { border: none; border-top: 1px solid rgba(255,255,255,.08); margin: 1.5rem auto; max-width: 400px; }
+    .footer-copy { font-size: .76rem; color: rgba(255,255,255,.3); }
+
+    /* ── RESPONSIVE ──────────────────────────────────── */
+    @media (max-width: 960px) {
+      #hero    { grid-template-columns: 1fr; }
+      .hero-visual { display: none; }
+      #inclusions  { grid-template-columns: 1fr; }
+      .about-image-wrap { display: none; }
+      .features { grid-template-columns: 1fr; }
+      .card-grid { grid-template-columns: 1fr 1fr; }
+      .packs-grid { grid-template-columns: 1fr; max-width: 400px; }
+      .stats-row { grid-template-columns: 1fr 1fr; }
+      .quote-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 640px) {
+      .nav-links { display: none; flex-direction: column; position: absolute; top: 68px; left: 0; right: 0; background: var(--surface); border-bottom: 1px solid var(--border); padding: 1.2rem 5%; gap: 1rem; box-shadow: 0 4px 12px rgba(0,0,0,.08); z-index: 200; }
+      .nav-links.open { display: flex; }
+      .hamburger { display: flex; }
+      .card-grid { grid-template-columns: 1fr; }
+      .form-row  { grid-template-columns: 1fr; }
+      .reg-form  { padding: 1.5rem; }
+      section, #inclusions, #audience, #apply, #packs, #credibility { padding: 64px 4%; }
+      #hero { padding: 72px 4% 60px; min-height: auto; }
+      .about-footer { flex-wrap: wrap; }
+      .btn-outline { margin-left: 0; }
+      .stats-row { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── NAVBAR ───────────────────────────────────────── -->
+<nav>
+  <a href="#hero" class="nav-logo">
+    <img src="askhealth-logo.svg" alt="ASKHEALTH Healthcare B2B Event" />
+  </a>
+  <div class="nav-links" id="navLinks">
+    <a href="#packs">Packages</a>
+    <a href="#inclusions">What's Included</a>
+    <a href="#audience">Who Attends</a>
+    <a href="exhibitor-login.html" class="nav-login-btn">Exhibitor Login</a>
+    <a href="#apply" class="nav-cta">Apply for a Stand</a>
+  </div>
+  <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- ── HERO ─────────────────────────────────────────── -->
+<section id="hero">
+  <video class="hero-bg-img" autoplay muted loop playsinline preload="auto" poster="hero-bg.jpg">
+    <source src="exhibitors-hero-video.mp4" type="video/mp4">
+  </video>
+  <div class="hero-content">
+    <h1>Bring Your Clinic to<br>400+ Moroccan & African <span>Healthcare</span><br>Decision-Makers</h1>
+    <p class="hero-desc">Exhibit at ASKHEALTH 2026 and connect face-to-face with hospital directors, doctors, and medical tourism coordinators from across Morocco & Africa — all in one day in Casablanca.</p>
+    <a href="#apply" class="btn-hero">
+      Apply for a Stand
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </a>
+  </div>
+  <div class="hero-visual">
+    <div class="hero-card-wrap">
+      <div class="hero-stat-row">
+        <div class="hero-stat">
+          <span class="num">400+</span>
+          <span class="lbl">Moroccan & African Decision-Makers</span>
+        </div>
+      </div>
+      <div class="hero-highlight">
+        <strong>August 15, 2026</strong>
+        <span>Hyatt Regency &mdash; Casablanca, Morocco</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── FEATURE CARDS (mirror style) ─────────────────── -->
+<div class="features">
+  <div class="feat-card mirror-left">
+    <div class="feat-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+      </svg>
+    </div>
+    <h3>Tap into Morocco & Africa's Medical Tourism Pipeline</h3>
+    <p>Morocco & Africa sends thousands of patients abroad for treatment every year. Meet the coordinators, doctors, and administrators who make those referral decisions — and make your hospital their first choice.</p>
+  </div>
+
+  <div class="feat-card mirror-center">
+    <div class="feat-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/>
+        <path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/>
+      </svg>
+    </div>
+    <h3>Build Strategic B2B Partnerships</h3>
+    <p>Negotiate referral agreements, joint-service contracts, and long-term collaborations directly with Moroccan & African healthcare institutions. Skip the email chains — close deals face-to-face.</p>
+  </div>
+
+  <div class="feat-card mirror-right">
+    <div class="feat-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/>
+        <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+      </svg>
+    </div>
+    <h3>Own Your Brand in the Moroccan & African Market</h3>
+    <p>Your stand, your banners, your team. Position your clinic as the go-to partner for Moroccan & African patients and institutions entering the Turkish healthcare ecosystem.</p>
+  </div>
+</div>
+
+<!-- ── PACKS ──────────────────────────────────────────── -->
+<section id="packs">
+  <div class="section-header">
+    <h2>Choose the Pack That Fits You</h2>
+    <p>All packages include a branded exhibition stand. Upgrade for additional services that make your trip seamless and your impact stronger.</p>
+  </div>
+
+  <div class="packs-grid">
+    <!-- Silver -->
+    <div class="pack-card">
+      <div class="pack-name">Silver Pack</div>
+      <ul class="pack-features">
+        <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg> Participation in Event</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg> Branded Exhibition Stand</li>
+        <li class="dim"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> Transportation</li>
+        <li class="dim"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> Hotel Accommodation (2 nights)</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg> Networking Gala Dinner</li>
+        <li class="dim"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> Pre-Event Hospital Meetings</li>
+      </ul>
+      <a href="#apply" class="pack-cta outline">Select Silver</a>
+    </div>
+
+    <!-- Gold -->
+    <div class="pack-card featured">
+      <div class="pack-badge">Most Popular</div>
+      <div class="pack-name">Gold Pack</div>
+      <ul class="pack-features">
+        <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg> Participation in Event</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg> Branded Exhibition Stand</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg> Transportation</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg> Hotel Accommodation (2 nights)</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg> Networking Gala Dinner</li>
+        <li class="dim"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> Pre-Event Hospital Meetings</li>
+      </ul>
+      <a href="#apply" class="pack-cta primary">Select Gold</a>
+    </div>
+
+    <!-- Diamond -->
+    <div class="pack-card">
+      <div class="pack-badge premium">Best Value</div>
+      <div class="pack-name">Diamond Pack</div>
+      <ul class="pack-features">
+        <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg> Participation in Event</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg> Branded Exhibition Stand</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg> Transportation</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg> Hotel Accommodation (2 nights)</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg> Networking Gala Dinner</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg> Pre-Event Hospital Meetings</li>
+      </ul>
+      <a href="#apply" class="pack-cta outline">Select Diamond</a>
+    </div>
+  </div>
+
+  <p class="pack-note">Pricing details available after login. <a href="exhibitor-login.html" style="color:var(--primary);font-weight:700;text-decoration:none;">Log in to your portal &rarr;</a></p>
+</section>
+
+<!-- ── WHAT'S INCLUDED ────────────────────────────────── -->
+<section id="inclusions">
+  <div class="about-content">
+    <h2>Everything You Need to Make an Impact</h2>
+    <p>Your exhibitor package is designed to maximise visibility, facilitate quality meetings, and deliver real ROI — not just a table and a banner.</p>
+    <ul class="check-list">
+      <li>
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
+        Dedicated branded booth space (table, chairs, signage area)
+      </li>
+      <li>
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
+        Pre-scheduled 1-on-1 B2B meetings with Moroccan & African attendees
+      </li>
+      <li>
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
+        Your institution listed in the official event programme
+      </li>
+      <li>
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
+        Logo and profile on the ASKHEALTH digital platform
+      </li>
+      <li>
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
+        Access to all networking sessions and panels
+      </li>
+      <li>
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
+        Post-event attendee contact list (opt-in)
+      </li>
+    </ul>
+    <div class="about-footer">
+      <div class="ceo-avatar">
+        <img src="askhealth-team.svg" alt="ASKHEALTH Team">
+      </div>
+      <div class="ceo-info">
+        <strong>ASKHEALTH Team</strong>
+        <span>morocco@askfairs.com</span>
+      </div>
+      <a href="#apply" class="btn-outline">
+        Apply Now
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+  </div>
+
+  <div class="about-image-wrap">
+    <div class="stand-preview">
+      <div class="preview-item">
+        <div class="check"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="preview-item-text">
+          <strong>Branded Stand Space</strong>
+          <span>Table, chairs &amp; signage area</span>
+        </div>
+      </div>
+      <div class="preview-item">
+        <div class="check"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="preview-item-text">
+          <strong>Pre-Scheduled Meetings</strong>
+          <span>1-on-1 with Moroccan & African decision-makers</span>
+        </div>
+      </div>
+      <div class="preview-item">
+        <div class="check"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="preview-item-text">
+          <strong>Post-Event Report</strong>
+          <span>Leads list &amp; meeting summaries</span>
+        </div>
+      </div>
+      <div class="avail-badge">
+        <div class="badge-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        </div>
+        <div>
+          <strong>Limited Stands Available</strong>
+          <span>August 15, 2026</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── AUDIENCE ───────────────────────────────────────── -->
+<section id="audience">
+  <div class="section-header">
+    <h2>400+ Moroccan & African Healthcare Professionals Attending</h2>
+    <p>These are the decision-makers in the room. Your next referral partner, your next long-term client — they will be at ASKHEALTH 2026.</p>
+  </div>
+
+  <div class="audience-marquee">
+    <div class="audience-track">
+
+      <!-- Set 1 -->
+      <div class="inst-card">
+        <div class="inst-header">
+          <div class="inst-logo"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
+          <div>
+            <h3>Hospital Directors &amp; Administrators</h3>
+            <div class="inst-city"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>Morocco & Africa</div>
+          </div>
+        </div>
+        <div class="specialty-badge">Institutional Leadership</div>
+        <p class="inst-role">Final decision-makers on cross-border treatment referrals and institutional partnerships.</p>
+      </div>
+
+      <div class="inst-card">
+        <div class="inst-header">
+          <div class="inst-logo"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div>
+          <div>
+            <h3>General Practitioners &amp; Family Doctors</h3>
+            <div class="inst-city"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>Morocco & Africa</div>
+          </div>
+        </div>
+        <div class="specialty-badge">Primary Care</div>
+        <p class="inst-role">Frontline physicians who refer patients to specialist care abroad.</p>
+      </div>
+
+      <div class="inst-card">
+        <div class="inst-header">
+          <div class="inst-logo"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></div>
+          <div>
+            <h3>Specialist Physicians</h3>
+            <div class="inst-city"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>Morocco & Africa</div>
+          </div>
+        </div>
+        <div class="specialty-badge">Oncology · Cardiology · Ortho</div>
+        <p class="inst-role">Clinicians evaluating treatment quality and outcomes at Turkish centres.</p>
+      </div>
+
+      <div class="inst-card">
+        <div class="inst-header">
+          <div class="inst-logo"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></div>
+          <div>
+            <h3>Medical Tourism Coordinators</h3>
+            <div class="inst-city"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>Morocco & Africa</div>
+          </div>
+        </div>
+        <div class="specialty-badge">Medical Tourism</div>
+        <p class="inst-role">Professionals actively sourcing Turkish hospital partners for Moroccan & African patient flows.</p>
+      </div>
+
+      <div class="inst-card">
+        <div class="inst-header">
+          <div class="inst-logo"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg></div>
+          <div>
+            <h3>Private Clinic Owners</h3>
+            <div class="inst-city"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>Morocco & Africa</div>
+          </div>
+        </div>
+        <div class="specialty-badge">Private Healthcare</div>
+        <p class="inst-role">Entrepreneurs building bilateral referral networks with Turkish institutions.</p>
+      </div>
+
+      <div class="inst-card">
+        <div class="inst-header">
+          <div class="inst-logo"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
+          <div>
+            <h3>Insurance &amp; Healthcare Investors</h3>
+            <div class="inst-city"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>Morocco & Africa</div>
+          </div>
+        </div>
+        <div class="specialty-badge">Investment &amp; Insurance</div>
+        <p class="inst-role">Decision-makers assessing Turkish healthcare for coverage and investment partnerships.</p>
+      </div>
+
+      <!-- Set 2 (duplicated for seamless loop) -->
+      <div class="inst-card" aria-hidden="true">
+        <div class="inst-header">
+          <div class="inst-logo"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
+          <div>
+            <h3>Hospital Directors &amp; Administrators</h3>
+            <div class="inst-city"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>Morocco & Africa</div>
+          </div>
+        </div>
+        <div class="specialty-badge">Institutional Leadership</div>
+        <p class="inst-role">Final decision-makers on cross-border treatment referrals and institutional partnerships.</p>
+      </div>
+
+      <div class="inst-card" aria-hidden="true">
+        <div class="inst-header">
+          <div class="inst-logo"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div>
+          <div>
+            <h3>General Practitioners &amp; Family Doctors</h3>
+            <div class="inst-city"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>Morocco & Africa</div>
+          </div>
+        </div>
+        <div class="specialty-badge">Primary Care</div>
+        <p class="inst-role">Frontline physicians who refer patients to specialist care abroad.</p>
+      </div>
+
+      <div class="inst-card" aria-hidden="true">
+        <div class="inst-header">
+          <div class="inst-logo"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></div>
+          <div>
+            <h3>Specialist Physicians</h3>
+            <div class="inst-city"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>Morocco & Africa</div>
+          </div>
+        </div>
+        <div class="specialty-badge">Oncology · Cardiology · Ortho</div>
+        <p class="inst-role">Clinicians evaluating treatment quality and outcomes at Turkish centres.</p>
+      </div>
+
+      <div class="inst-card" aria-hidden="true">
+        <div class="inst-header">
+          <div class="inst-logo"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></div>
+          <div>
+            <h3>Medical Tourism Coordinators</h3>
+            <div class="inst-city"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>Morocco & Africa</div>
+          </div>
+        </div>
+        <div class="specialty-badge">Medical Tourism</div>
+        <p class="inst-role">Professionals actively sourcing Turkish hospital partners for Moroccan & African patient flows.</p>
+      </div>
+
+      <div class="inst-card" aria-hidden="true">
+        <div class="inst-header">
+          <div class="inst-logo"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg></div>
+          <div>
+            <h3>Private Clinic Owners</h3>
+            <div class="inst-city"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>Morocco & Africa</div>
+          </div>
+        </div>
+        <div class="specialty-badge">Private Healthcare</div>
+        <p class="inst-role">Entrepreneurs building bilateral referral networks with Turkish institutions.</p>
+      </div>
+
+      <div class="inst-card" aria-hidden="true">
+        <div class="inst-header">
+          <div class="inst-logo"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
+          <div>
+            <h3>Insurance &amp; Healthcare Investors</h3>
+            <div class="inst-city"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>Morocco & Africa</div>
+          </div>
+        </div>
+        <div class="specialty-badge">Investment &amp; Insurance</div>
+        <p class="inst-role">Decision-makers assessing Turkish healthcare for coverage and investment partnerships.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── CREDIBILITY ────────────────────────────────────── -->
+<section id="credibility">
+  <div class="section-header">
+    <h2>A Proven Platform for Cross-Border Healthcare Partnerships</h2>
+    <p>ASKHEALTH connects Turkey's leading medical institutions with a qualified, motivated Moroccan & African audience — with full logistical support from our team.</p>
+  </div>
+
+  <div class="stats-row" style="grid-template-columns:1fr;max-width:360px;">
+    <div class="hero-stat">
+      <span class="num">400+</span>
+      <span class="lbl">Moroccan & African Healthcare Attendees</span>
+    </div>
+  </div>
+
+</section>
+
+<!-- ── EXHIBITOR APPLICATION FORM ────────────────────── -->
+<section id="apply">
+  <div class="register-inner">
+    <h2>Apply for a Stand at ASKHEALTH 2026</h2>
+    <p>Complete the form below and our commercial team will reach out within 24 hours with your login details to complete your registration.</p>
+
+    <div class="reg-form">
+      <form id="applyForm">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="instName">Institution Name *</label>
+            <input type="text" id="instName" placeholder="e.g. Acibadem Hospital Istanbul" required>
+          </div>
+          <div class="form-group">
+            <label for="contactPerson">Contact Person's Name *</label>
+            <input type="text" id="contactPerson" placeholder="e.g. Dr. Mehmet Yilmaz" required>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="jobTitle">Job Title / Role *</label>
+            <input type="text" id="jobTitle" placeholder="International Relations Director" required>
+          </div>
+          <div class="form-group">
+            <label for="email">Email Address *</label>
+            <input type="email" id="email" placeholder="mehmet@hospital.com.tr" required>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="phone">Phone Number *</label>
+            <input type="tel" id="phone" placeholder="+90 5XX XXX XX XX" required>
+          </div>
+          <div class="form-group">
+            <label for="city">City / Region in Turkey *</label>
+            <input type="text" id="city" placeholder="Istanbul" required>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="specialty">Medical Specialty *</label>
+            <select id="specialty" required>
+              <option value="">Select specialty…</option>
+              <option>Cardiology &amp; Cardiac Surgery</option>
+              <option>Oncology &amp; Cancer Treatment</option>
+              <option>Orthopedics &amp; Spine Surgery</option>
+              <option>Neurology &amp; Neurosurgery</option>
+              <option>IVF &amp; Reproductive Medicine</option>
+              <option>Dermatology &amp; Aesthetics</option>
+              <option>Ophthalmology</option>
+              <option>Dental &amp; Oral Surgery</option>
+              <option>Bariatric &amp; Metabolic Surgery</option>
+              <option>General Surgery</option>
+              <option>Pediatrics</option>
+              <option>Multi-specialty Hospital</option>
+              <option value="Other">Other</option>
+            </select>
+            <input type="text" id="specialty-other" class="other-input" placeholder="Please specify your medical specialty">
+          </div>
+          <div class="form-group">
+            <label for="instType">Institution Type</label>
+            <select id="instType">
+              <option value="">Select type…</option>
+              <option>University Hospital</option>
+              <option>Private Hospital (Chain)</option>
+              <option>Private Hospital (Independent)</option>
+              <option>Specialty Clinic</option>
+              <option>Outpatient Centre</option>
+              <option value="Other">Other</option>
+            </select>
+            <input type="text" id="instType-other" class="other-input" placeholder="Please specify the institution type">
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="website">Institution Website</label>
+          <input type="url" id="website" placeholder="https://www.yourhospital.com.tr">
+        </div>
+        <div class="form-group">
+          <label for="message">Message / Notes (optional)</label>
+          <textarea id="message" rows="3" placeholder="Tell us about your goals for the event, specialties you'd like to highlight, or any questions about the packages…"></textarea>
+        </div>
+        <button type="submit" class="btn-submit">Submit Exhibitor Application</button>
+      </form>
+
+      <div class="thank-you" id="applyThankYou">
+        <div class="ty-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+        <h3>Application Received!</h3>
+        <p>Thank you for your interest in exhibiting at ASKHEALTH 2026.</p>
+        <p style="margin-top:.5rem;">Our commercial team will contact you within <strong>48 hours</strong> with your login credentials to access the Exhibitor Portal and complete your registration.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER ─────────────────────────────────────────── -->
+<footer>
+  <a href="#hero" class="footer-logo">
+    <img src="askhealth-logo.svg" alt="ASKHEALTH" />
+  </a>
+  <p>ASKHEALTH Healthcare B2B Event &mdash; August 15, 2026 &mdash; Casablanca, Morocco</p>
+  <p><a href="mailto:morocco@askfairs.com">morocco@askfairs.com</a></p>
+  <p style="margin-top:.35rem;font-size:.85rem;"><a href="index.html">Looking to attend? Register as an Attendee &rarr;</a></p>
+  <hr class="footer-divider">
+  <p class="footer-copy">&copy; 2026 ASKHEALTH / AskFairs. All rights reserved.</p>
+</footer>
+
+<script>
+  // ── Hamburger menu ────────────────────────────────────────
+  document.getElementById('hamburger').addEventListener('click', function() {
+    document.getElementById('navLinks').classList.toggle('open');
+  });
+
+  // ── Helpers ───────────────────────────────────────────────
+  function generatePassword() {
+    const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz23456789';
+    let pw = '';
+    for (let i = 0; i < 8; i++) pw += chars[Math.floor(Math.random() * chars.length)];
+    return pw;
+  }
+
+  function generateId() {
+    return 'exhibitor_' + Date.now() + '_' + Math.random().toString(36).slice(2, 6);
+  }
+
+  function getComReps() {
+    try {
+      const users = JSON.parse(localStorage.getItem('askhealth_users') || '[]');
+      return users.filter(u => u.role === 'com_rep');
+    } catch { return []; }
+  }
+
+  function getExhibitors() {
+    try { return JSON.parse(localStorage.getItem('askhealth_exhibitors') || '[]'); }
+    catch { return []; }
+  }
+
+  function getUsers() {
+    try { return JSON.parse(localStorage.getItem('askhealth_users') || '[]'); }
+    catch { return []; }
+  }
+
+  // ── Registration form ─────────────────────────────────────
+  document.getElementById('applyForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    const instName     = document.getElementById('instName').value.trim();
+    const contactPerson= document.getElementById('contactPerson').value.trim();
+    const jobTitle     = document.getElementById('jobTitle').value.trim();
+    const email        = document.getElementById('email').value.trim().toLowerCase();
+    const phone        = document.getElementById('phone').value.trim();
+    const city         = document.getElementById('city').value.trim();
+    const specialtySel = document.getElementById('specialty').value;
+    const instTypeSel  = document.getElementById('instType').value;
+    const specialty    = specialtySel === 'Other' ? document.getElementById('specialty-other').value.trim() : specialtySel;
+    const instType     = instTypeSel  === 'Other' ? document.getElementById('instType-other').value.trim()  : instTypeSel;
+    const website      = document.getElementById('website').value.trim();
+    const message      = document.getElementById('message').value.trim();
+
+    // Basic validation highlight
+    let valid = true;
+    ['instName','contactPerson','jobTitle','email','phone','city','specialty'].forEach(id => {
+      const el = document.getElementById(id);
+      if (!el.value.trim()) {
+        el.style.borderColor = '#e53e3e';
+        valid = false;
+      } else {
+        el.style.borderColor = '';
+      }
+    });
+    if (!valid) return;
+
+    // Check for duplicate email
+    if (DB.getUserByEmail(email)) {
+      document.getElementById('email').style.borderColor = '#e53e3e';
+      alert('An account with this email already exists. Please log in instead.');
+      return;
+    }
+
+    // Create exhibitor record + user account via DB (syncs to Firebase)
+    const exhibitor = DB.createExhibitor({ institutionName: instName, contactPerson, jobTitle, email, phone, city, specialty, instType, website, message });
+    const password  = generatePassword();
+    DB.createUser({ name: contactPerson, email, password, role: 'exhibitor', exhibitorId: exhibitor.id, color: '#2AABDB' });
+
+    // Show thank-you (credentials sent by commercial rep)
+    document.getElementById('applyForm').style.display = 'none';
+    document.getElementById('applyThankYou').style.display = 'block';
+  });
+
+  // Reset border on input
+  ['instName','contactPerson','jobTitle','email','phone','city','specialty'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.addEventListener('input', () => el.style.borderColor = '');
+  });
+
+  // Show/hide "Other" text inputs based on select value
+  function bindOtherToggle(selectId, otherId) {
+    const sel = document.getElementById(selectId);
+    const inp = document.getElementById(otherId);
+    if (!sel || !inp) return;
+    sel.addEventListener('change', () => {
+      if (sel.value === 'Other') {
+        inp.classList.add('visible');
+        if (sel.hasAttribute('required')) inp.setAttribute('required', 'required');
+      } else {
+        inp.classList.remove('visible');
+        inp.removeAttribute('required');
+        inp.value = '';
+        inp.style.borderColor = '';
+      }
+    });
+  }
+  bindOtherToggle('specialty', 'specialty-other');
+  bindOtherToggle('instType', 'instType-other');
+</script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="crm/js/db.js"></script>
+<script>
+  // Init Firebase so DB methods sync to Firestore
+  DB.init();
+</script>
+</body>
+</html>

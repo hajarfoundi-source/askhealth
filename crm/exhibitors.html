@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <base href="/crm/">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ASKHEALTH CRM — Exhibitors</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/shared.css">
+  <link rel="stylesheet" href="css/exhibitors.css">
+</head>
+<body>
+<div class="crm-layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+  <main class="crm-main">
+    <div class="topbar">
+      <div class="topbar-left">
+        <button class="btn-hamburger" id="sidebarToggle" aria-label="Toggle menu">
+          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
+          </svg>
+        </button>
+        <span class="topbar-title">Exhibitors</span>
+      </div>
+      <div class="topbar-right" id="topbarRight"></div>
+    </div>
+
+    <!-- Subtoolbar: view toggle, search, pack filter, add -->
+    <div class="kanban-subtoolbar" id="subtoolbar"></div>
+
+    <!-- Cards view (mobile) -->
+    <div class="cards-wrap" id="cardsWrap" style="display:none;"></div>
+
+    <!-- Kanban board -->
+    <div class="board-wrap" id="boardWrap">
+      <div class="board" id="board"></div>
+    </div>
+
+    <!-- List view -->
+    <div class="list-wrap" id="listWrap" style="display:none;">
+      <div class="list-toolbar">
+        <span class="list-count" id="listCount"></span>
+      </div>
+      <div class="list-table-wrap">
+        <table class="list-table">
+          <thead>
+            <tr>
+              <th>Institution</th>
+              <th>Contact</th>
+              <th>Specialty</th>
+              <th>Pack</th>
+              <th>Attendees</th>
+              <th>Total Price</th>
+              <th>Stage</th>
+              <th>Rep</th>
+              <th>Date</th>
+            </tr>
+          </thead>
+          <tbody id="listBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+</div>
+
+<div id="toast-container"></div>
+
+<!-- ── Exhibitor Side Panel ──────────────────────────────── -->
+<div class="side-panel-overlay" id="panelOverlay">
+  <div class="side-panel-backdrop" id="panelBackdrop"></div>
+  <div class="side-panel" id="sidePanel">
+    <div class="side-panel-header">
+      <h3 id="panelName">Exhibitor Detail</h3>
+      <button class="btn-close" id="panelClose" style="background:rgba(255,255,255,.15);color:#fff;">✕</button>
+    </div>
+    <div class="side-panel-body" id="panelBody"></div>
+  </div>
+</div>
+
+<!-- ── Invoice Modal ─────────────────────────────────────── -->
+<div class="modal-overlay" id="invoiceModal">
+  <div class="modal-dialog" style="width:700px;max-width:96vw;">
+    <div class="modal-header">
+      <h3>Invoice Preview</h3>
+      <button class="btn-close" onclick="closeInvoiceModal()">✕</button>
+    </div>
+    <div class="modal-body invoice-modal-body" id="invoiceModalBody"></div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost btn-sm" onclick="closeInvoiceModal()">Close</button>
+      <button class="btn btn-primary btn-sm" onclick="window.print()">
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+        Print Invoice
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ── New Exhibitor Modal (Admin only) ──────────────────── -->
+<div class="modal-overlay" id="newExModal">
+  <div class="modal-dialog" style="width:600px;max-width:96vw;">
+    <div class="modal-header">
+      <h3>Add Exhibitor</h3>
+      <button class="btn-close" onclick="closeNewExModal()">✕</button>
+    </div>
+    <div class="modal-body" style="gap:10px;">
+      <div class="modal-error" id="newExError" style="display:none;background:#FFF5F5;border:1px solid #FED7D7;color:#c53030;border-radius:7px;padding:8px 12px;font-size:12px;"></div>
+      <div id="newExForm">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+          <div class="form-group">
+            <label>Institution Name *</label>
+            <input class="form-control" type="text" id="nex_instName" placeholder="Acibadem Hospital">
+          </div>
+          <div class="form-group">
+            <label>Contact Person *</label>
+            <input class="form-control" type="text" id="nex_contact" placeholder="Dr. Mehmet Yilmaz">
+          </div>
+          <div class="form-group">
+            <label>Job Title</label>
+            <input class="form-control" type="text" id="nex_jobTitle" placeholder="International Relations Director">
+          </div>
+          <div class="form-group">
+            <label>Email *</label>
+            <input class="form-control" type="email" id="nex_email" placeholder="mehmet@hospital.com.tr">
+          </div>
+          <div class="form-group">
+            <label>Phone</label>
+            <input class="form-control" type="tel" id="nex_phone" placeholder="+90 5XX XXX XX XX">
+          </div>
+          <div class="form-group">
+            <label>City (Turkey)</label>
+            <input class="form-control" type="text" id="nex_city" placeholder="Istanbul">
+          </div>
+          <div class="form-group">
+            <label>Specialty</label>
+            <select class="form-control" id="nex_specialty">
+              <option value="">Select…</option>
+              <option>Cardiology &amp; Cardiac Surgery</option>
+              <option>Oncology &amp; Cancer Treatment</option>
+              <option>Orthopedics &amp; Spine Surgery</option>
+              <option>Neurology &amp; Neurosurgery</option>
+              <option>IVF &amp; Reproductive Medicine</option>
+              <option>Dermatology &amp; Aesthetics</option>
+              <option>Ophthalmology</option>
+              <option>Dental &amp; Oral Surgery</option>
+              <option>Bariatric &amp; Metabolic Surgery</option>
+              <option>General Surgery</option>
+              <option>Pediatrics</option>
+              <option>Multi-specialty Hospital</option>
+              <option>Other</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Institution Type</label>
+            <select class="form-control" id="nex_instType">
+              <option value="">Select…</option>
+              <option>University Hospital</option>
+              <option>Private Hospital (Chain)</option>
+              <option>Private Hospital (Independent)</option>
+              <option>Specialty Clinic</option>
+              <option>Outpatient Centre</option>
+              <option>Other</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group" style="margin-top:10px;">
+          <label>Website</label>
+          <input class="form-control" type="url" id="nex_website" placeholder="https://www.hospital.com.tr">
+        </div>
+        <div class="form-group" style="margin-top:10px;">
+          <label>Message / Notes</label>
+          <textarea class="form-control" id="nex_message" rows="2" placeholder="Notes…"></textarea>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost btn-sm" onclick="closeNewExModal()">Cancel</button>
+      <button class="btn btn-primary btn-sm" onclick="saveNewExhibitor()">Add Exhibitor</button>
+    </div>
+  </div>
+</div>
+
+<!-- Print: only show invoice when printing from CRM modal -->
+<style>
+@media print {
+  body * { visibility: hidden; }
+  #invoiceDocCRM, #invoiceDocCRM * { visibility: visible; }
+  #invoiceDocCRM {
+    position: fixed; inset: 0;
+    padding: 1.5cm; font-size: 13px;
+    background: white;
+  }
+  @page { size: A4; margin: 1.5cm; }
+}
+</style>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/db.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/exhibitors.js"></script>
+</body>
+</html>

@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <base href="/crm/">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ASKHEALTH CRM — Sign In</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      min-height: 100vh;
+      background: linear-gradient(135deg, #0F2D45 0%, #1A6FA3 60%, #2AABDB 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .login-card {
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 20px 60px rgba(0,0,0,.3);
+      display: flex;
+      overflow: hidden;
+      width: 820px;
+      max-width: 100%;
+      min-height: 480px;
+    }
+
+    /* Left panel */
+    .login-left {
+      background: linear-gradient(160deg, #0F2D45 0%, #1A6FA3 100%);
+      color: #fff;
+      padding: 40px 36px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      flex: 1;
+      min-width: 240px;
+    }
+
+    .login-left-logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 32px;
+    }
+
+    .login-left-logo img {
+      width: 52px;
+      height: 52px;
+      object-fit: contain;
+      background: rgba(255,255,255,.1);
+      border-radius: 12px;
+      padding: 4px;
+    }
+
+    .login-left-logo-text strong {
+      display: block;
+      font-size: 20px;
+      font-weight: 800;
+      letter-spacing: -.2px;
+    }
+
+    .login-left-logo-text span {
+      font-size: 12px;
+      color: rgba(255,255,255,.6);
+    }
+
+    .login-left h2 {
+      font-size: 22px;
+      font-weight: 700;
+      margin-bottom: 10px;
+      line-height: 1.3;
+    }
+
+    .login-left p {
+      font-size: 13px;
+      color: rgba(255,255,255,.65);
+      line-height: 1.6;
+    }
+
+    .event-info {
+      margin-top: 32px;
+      padding-top: 24px;
+      border-top: 1px solid rgba(255,255,255,.15);
+    }
+
+    .event-info-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+      font-size: 13px;
+      color: rgba(255,255,255,.75);
+    }
+
+    .event-info-item svg { flex-shrink: 0; opacity: .7; }
+
+    /* Right panel */
+    .login-right {
+      padding: 44px 40px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      width: 360px;
+      flex-shrink: 0;
+    }
+
+    .login-right h3 {
+      font-size: 22px;
+      font-weight: 800;
+      color: #0F2D45;
+      margin-bottom: 6px;
+    }
+
+    .login-right .subtitle {
+      font-size: 13px;
+      color: #64748B;
+      margin-bottom: 28px;
+    }
+
+    .form-group { margin-bottom: 16px; }
+
+    .form-group label {
+      display: block;
+      font-size: 11px;
+      font-weight: 700;
+      color: #64748B;
+      text-transform: uppercase;
+      letter-spacing: .6px;
+      margin-bottom: 5px;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 10px 13px;
+      border: 1.5px solid #E2E8F0;
+      border-radius: 8px;
+      font-size: 14px;
+      font-family: inherit;
+      color: #1A202C;
+      outline: none;
+      transition: border-color .15s;
+    }
+
+    .form-group input:focus { border-color: #2AABDB; }
+
+    .btn-login {
+      width: 100%;
+      padding: 11px;
+      background: #1A6FA3;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background .15s;
+      margin-top: 6px;
+      font-family: inherit;
+    }
+
+    .btn-login:hover { background: #155d8a; }
+
+    .error-msg {
+      display: none;
+      background: #FFF5F5;
+      border: 1px solid #FED7D7;
+      color: #c53030;
+      border-radius: 7px;
+      padding: 9px 12px;
+      font-size: 13px;
+      margin-bottom: 14px;
+    }
+
+    .error-msg.visible { display: block; }
+
+    .login-footer {
+      margin-top: 24px;
+      padding-top: 20px;
+      border-top: 1px solid #E2E8F0;
+      font-size: 11px;
+      color: #A0AEC0;
+      text-align: center;
+    }
+
+    @media (max-width: 600px) {
+      .login-left { display: none; }
+      .login-right { width: 100%; padding: 32px 24px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="login-card">
+    <!-- Left branding panel -->
+    <div class="login-left">
+      <div class="login-left-logo">
+        <img src="../askhealth-logo.png" alt="ASKHEALTH" onerror="this.style.display='none'">
+        <div class="login-left-logo-text">
+          <strong>ASKHEALTH CRM</strong>
+          <span>Internal Operations</span>
+        </div>
+      </div>
+
+      <h2>Manage your event leads with ease</h2>
+      <p>Track registrations, contact attendees, and coordinate your team — all in one place.</p>
+
+      <div class="event-info">
+        <div class="event-info-item">
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
+          </svg>
+          August 15, 2026
+        </div>
+        <div class="event-info-item">
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
+          </svg>
+          ASKHEALTH Healthcare B2B Event
+        </div>
+        <div class="event-info-item">
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/>
+          </svg>
+          Admin + Call Center Team
+        </div>
+      </div>
+    </div>
+
+    <!-- Right login panel -->
+    <div class="login-right">
+      <h3>Welcome back</h3>
+      <p class="subtitle">Sign in to access the CRM dashboard</p>
+
+      <div class="error-msg" id="errorMsg">Invalid email or password.</div>
+
+      <form id="loginForm" autocomplete="off">
+        <div class="form-group">
+          <label for="email">Email Address</label>
+          <input type="email" id="email" placeholder="e.g. admin@askhealth.com" autocomplete="email" required>
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" placeholder="••••••••••" autocomplete="current-password" required>
+        </div>
+        <button type="submit" class="btn-login">Sign In</button>
+      </form>
+
+      <div class="login-footer">
+        ASKHEALTH CRM · Internal Tool · 2026<br>
+        morocco@askfairs.com
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/db.js"></script>
+  <script src="js/auth.js"></script>
+  <script>
+    DB.init().then(function() {
+      Auth.redirectIfLoggedIn();
+    });
+
+    document.getElementById('loginForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const email    = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+      const result = Auth.login(email, password);
+      if (result.ok) {
+        Auth.redirectAfterLogin(result.user.role);
+      } else {
+        const err = document.getElementById('errorMsg');
+        err.textContent = result.error;
+        err.classList.add('visible');
+        document.getElementById('password').value = '';
+        document.getElementById('password').focus();
+      }
+    });
+
+    // Clear error on input
+    ['email','password'].forEach(id => {
+      document.getElementById(id).addEventListener('input', () => {
+        document.getElementById('errorMsg').classList.remove('visible');
+      });
+    });
+  </script>
+</body>
+</html>

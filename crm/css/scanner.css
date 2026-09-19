@@ -1,0 +1,437 @@
+/* =========================================================
+   ASKHEALTH CRM — scanner.css
+   QR code check-in scanner for event day.
+   ========================================================= */
+
+/* ── Page wrapper ─────────────────────────────────────────── */
+
+.scanner-wrap {
+  flex: 1;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  padding: 16px 20px 20px;
+  gap: 14px;
+  min-height: 0;
+}
+
+/* ── Stats strip ─────────────────────────────────────────── */
+
+.scanner-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.scanner-stat {
+  background: var(--surface);
+  border-radius: 8px;
+  padding: 12px 14px;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border);
+  text-align: center;
+}
+
+.scanner-stat-value {
+  font-size: 24px;
+  font-weight: 800;
+  color: var(--navy);
+}
+
+.scanner-stat-label {
+  font-size: 11px;
+  color: var(--muted);
+  font-weight: 600;
+}
+
+/* ── Two-column layout ───────────────────────────────────── */
+
+.scanner-columns {
+  flex: 1;
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+  min-height: 0;
+  overflow: hidden;
+}
+
+/* ── Camera panel (left) ─────────────────────────────────── */
+
+.scanner-panel {
+  width: 420px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  overflow-y: auto;
+  max-height: 100%;
+}
+
+.scanner-box {
+  background: var(--surface);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border);
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.scanner-box-header {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.scanner-box-header h3 {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--navy);
+}
+
+.scanner-status {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.scanner-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #94a3b8;
+}
+
+.scanner-dot.active { background: var(--green); animation: pulse 1.5s infinite; }
+.scanner-dot.error  { background: var(--red); }
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: .4; }
+}
+
+/* html5-qrcode library renders into this div */
+#qr-reader {
+  width: 100%;
+  background: #000;
+  min-height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Override some html5-qrcode default styles */
+#qr-reader video { width: 100% !important; height: auto !important; }
+#qr-reader img   { display: none; }
+#qr-reader__dashboard { display: none !important; }
+
+.scanner-manual {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 14px;
+}
+
+.scanner-manual-title {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: .5px;
+}
+
+.scanner-manual-row {
+  display: flex;
+  gap: 8px;
+}
+
+.scanner-manual-row input {
+  flex: 1;
+}
+
+/* ── Right feed column ───────────────────────────────────── */
+
+.scanner-feed {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  overflow-y: auto;
+  max-height: 100%;
+}
+
+.feed-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.feed-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--navy);
+}
+
+/* ── Last scan result card ───────────────────────────────── */
+
+.last-scan-card {
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow-md);
+  border: 2px solid transparent;
+  transition: border-color .2s;
+}
+
+.last-scan-card.success { border-color: var(--green); }
+.last-scan-card.warning { border-color: var(--gold); }
+.last-scan-card.error   { border-color: var(--red); }
+
+.last-scan-header {
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 700;
+  font-size: 14px;
+}
+
+.last-scan-header.success { background: #F0FFF4; color: #276749; }
+.last-scan-header.warning { background: #FFFBEB; color: #92400E; }
+.last-scan-header.error   { background: #FFF5F5; color: #9b2c2c; }
+
+.last-scan-body {
+  background: var(--surface);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.last-scan-name {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--navy);
+}
+
+.last-scan-sub {
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.last-scan-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--gold);
+  margin-top: 4px;
+}
+
+.last-scan-time {
+  font-size: 11px;
+  color: #94a3b8;
+  margin-top: 4px;
+}
+
+/* ── Scan log ────────────────────────────────────────────── */
+
+.scan-log {
+  background: var(--surface);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border);
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.scan-log-header {
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--border);
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: .5px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.scan-log-list {
+  max-height: 220px;
+  overflow-y: auto;
+}
+
+.scan-log-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 14px;
+  border-bottom: 1px solid var(--border);
+  font-size: 12px;
+}
+
+.scan-log-item:last-child { border-bottom: none; }
+
+.scan-log-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.scan-log-dot.ok       { background: var(--green); }
+.scan-log-dot.dupe     { background: var(--gold); }
+.scan-log-dot.notfound { background: var(--red); }
+
+.scan-log-name  { font-weight: 600; color: var(--navy); flex: 1; }
+.scan-log-num   { color: var(--gold); font-weight: 700; }
+.scan-log-time  { color: #94a3b8; white-space: nowrap; }
+
+.scan-log-empty {
+  padding: 32px;
+  text-align: center;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+/* ── Checked-In Attendees Table ──────────────────────────── */
+
+.checkedin-section {
+  background: var(--surface);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border);
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.checkedin-header {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #F8FAFC;
+}
+
+.checkedin-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--navy);
+  margin-right: 10px;
+}
+
+.checkedin-count {
+  font-size: 12px;
+  color: var(--muted);
+  font-weight: 500;
+}
+
+.checkedin-table-wrap {
+  overflow-x: auto;
+}
+
+.checkedin-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+}
+
+.checkedin-table th {
+  text-align: left;
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: .5px;
+  padding: 9px 14px;
+  background: #F8FAFC;
+  border-bottom: 1px solid var(--border);
+  white-space: nowrap;
+}
+
+.checkedin-table td {
+  padding: 10px 14px;
+  color: var(--text);
+  border-bottom: 1px solid var(--border);
+  white-space: nowrap;
+}
+
+.checkedin-table tr:last-child td { border-bottom: none; }
+.checkedin-table tr:hover td { background: #F8FAFC; }
+
+.checkedin-empty {
+  text-align: center;
+  color: var(--muted);
+  padding: 32px !important;
+  font-size: 13px;
+}
+
+.checkedin-badge-num {
+  color: var(--gold);
+  font-weight: 700;
+}
+
+.checkedin-rep {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.checkedin-rep .avatar-xs {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  font-size: 9px;
+  font-weight: 700;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+/* ── Mobile responsive ───────────────────────────────────── */
+
+@media (max-width: 768px) {
+  .scanner-wrap {
+    flex: none;
+    overflow-y: auto;
+    overflow-x: hidden;
+    height: calc(100vh - var(--topbar-h) - 40px);
+    padding: 12px;
+    gap: 10px;
+  }
+
+  .scanner-columns {
+    flex-direction: column;
+    overflow: visible;
+    max-height: none;
+    min-height: 0;
+  }
+
+  .scanner-panel {
+    width: 100%;
+    max-height: none;
+    overflow: visible;
+  }
+
+  .scanner-feed {
+    max-height: none;
+    overflow: visible;
+  }
+
+  #qr-reader {
+    min-height: 240px;
+  }
+
+  .scanner-stat-value { font-size: 20px; }
+  .last-scan-name { font-size: 15px; }
+}

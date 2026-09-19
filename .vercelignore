@@ -1,0 +1,6 @@
+supabase/
+firebase.json
+.firebaserc
+firestore.rules
+.firebase/
+README.md

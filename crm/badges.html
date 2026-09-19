@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <base href="/crm/">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ASKHEALTH CRM — Badges</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/shared.css">
+  <link rel="stylesheet" href="css/badges.css">
+  <!-- QR Code generation library (local) -->
+  <script src="js/qrcode.min.js"></script>
+</head>
+<body>
+<div class="crm-layout">
+  <!-- Sidebar -->
+  <aside class="sidebar" id="sidebar"></aside>
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+  <!-- Main -->
+  <main class="crm-main">
+    <!-- Top bar -->
+    <div class="topbar">
+      <div class="topbar-left">
+        <button class="btn-hamburger" id="sidebarToggle" aria-label="Toggle menu">
+          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
+          </svg>
+        </button>
+        <span class="topbar-title">Attendee Badges</span>
+      </div>
+      <div class="topbar-right" id="topbarRight"></div>
+    </div>
+
+    <!-- Subtoolbar: search + print -->
+    <div class="kanban-subtoolbar">
+      <div class="search-wrap" style="flex:1;max-width:280px;">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+        </svg>
+        <input type="text" class="form-control" id="badgeSearch" placeholder="Search attendees…" style="height:30px;font-size:12px;width:100%;">
+      </div>
+      <button class="btn btn-primary btn-sm" id="printAllBtn">
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <polyline points="6 9 6 2 18 2 18 9"/>
+          <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/>
+          <rect x="6" y="14" width="12" height="8"/>
+        </svg>
+        Print All Badges
+      </button>
+    </div>
+
+    <div class="badges-content">
+      <div id="badgesSummary" class="badges-summary"></div>
+      <div class="badges-grid" id="badgesGrid"></div>
+    </div>
+  </main>
+</div>
+
+<div id="toast-container"></div>
+
+<!-- Print area: hidden on screen, shown on print -->
+<div id="print-area"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/db.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/badges.js"></script>
+</body>
+</html>

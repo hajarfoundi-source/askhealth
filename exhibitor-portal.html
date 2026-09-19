@@ -1,0 +1,980 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Exhibitor Portal — ASKHEALTH 2026</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --primary: #1A6FA3; --teal: #2AABDB; --navy: #0F2D45;
+      --bg: #F7FAFC; --surface: #FFFFFF; --text: #1A202C;
+      --muted: #64748B; --border: #E2E8F0; --radius: 12px;
+      --gold: #D4A843; --green: #38a169; --red: #e53e3e;
+    }
+
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+
+    /* ── PORTAL HEADER ───────────────────────────────────── */
+    .portal-header {
+      background: var(--navy);
+      height: 64px;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 5%;
+      position: sticky; top: 0; z-index: 100;
+      box-shadow: 0 2px 12px rgba(0,0,0,.2);
+    }
+
+    .portal-header-logo { display: flex; align-items: center; gap: 12px; }
+    .portal-header-logo img { height: 28px; filter: brightness(0) invert(1); }
+    .portal-header-logo-text strong { color: #fff; font-size: 14px; font-weight: 700; display: block; }
+    .portal-header-logo-text span   { color: rgba(255,255,255,.5); font-size: 11px; }
+
+    .portal-header-right { display: flex; align-items: center; gap: 14px; }
+    .portal-inst-name { color: rgba(255,255,255,.8); font-size: 13px; font-weight: 500; }
+
+    .btn-signout {
+      background: rgba(255,255,255,.1); color: rgba(255,255,255,.8);
+      border: 1px solid rgba(255,255,255,.2); border-radius: 8px;
+      padding: 6px 14px; font-size: 12px; font-weight: 600; cursor: pointer;
+      font-family: inherit; transition: background .15s;
+    }
+    .btn-signout:hover { background: rgba(255,255,255,.18); }
+
+    /* ── PORTAL MAIN ─────────────────────────────────────── */
+    .portal-main { max-width: 960px; margin: 0 auto; padding: 40px 24px 80px; }
+
+    /* ── PROGRESS BAR ────────────────────────────────────── */
+    .progress-bar {
+      display: flex; align-items: center; justify-content: center;
+      gap: 0; margin-bottom: 40px;
+    }
+
+    .progress-step {
+      display: flex; align-items: center; gap: 10px;
+      font-size: 13px; font-weight: 600; color: var(--muted);
+    }
+
+    .progress-step.active { color: var(--primary); }
+    .progress-step.done   { color: var(--green); }
+
+    .step-circle {
+      width: 32px; height: 32px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 12px; font-weight: 700;
+      border: 2px solid var(--border);
+      background: var(--surface); color: var(--muted);
+      flex-shrink: 0;
+    }
+
+    .progress-step.active .step-circle { border-color: var(--primary); background: var(--primary); color: #fff; }
+    .progress-step.done   .step-circle { border-color: var(--green); background: var(--green); color: #fff; }
+
+    .progress-connector { width: 60px; height: 2px; background: var(--border); margin: 0 8px; flex-shrink: 0; }
+    .progress-connector.done { background: var(--green); }
+
+    /* ── SECTION TITLE ───────────────────────────────────── */
+    .section-title { font-size: 22px; font-weight: 800; color: var(--navy); margin-bottom: 8px; }
+    .section-sub   { font-size: 14px; color: var(--muted); margin-bottom: 32px; }
+
+    /* ── PACKS ───────────────────────────────────────────── */
+    .packs-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 1.2rem; margin-bottom: 1.5rem;
+    }
+
+    .pack-card {
+      background: var(--surface); border: 2px solid var(--border);
+      border-radius: 16px; padding: 1.6rem 1.4rem;
+      display: flex; flex-direction: column; cursor: pointer;
+      transition: transform .2s, box-shadow .2s, border-color .2s;
+      position: relative;
+    }
+    .pack-card:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(0,0,0,.1); border-color: var(--teal); }
+    .pack-card.selected { border-color: var(--teal); box-shadow: 0 4px 20px rgba(42,171,219,.25); }
+    .pack-card.featured { border-color: rgba(42,171,219,.4); }
+
+    .pack-popular {
+      position: absolute; top: -11px; left: 50%; transform: translateX(-50%);
+      background: var(--teal); color: #fff;
+      font-size: .7rem; font-weight: 700; letter-spacing: .5px; text-transform: uppercase;
+      padding: .2rem .8rem; border-radius: 50px; white-space: nowrap;
+    }
+    .pack-popular.premium-badge { background: var(--navy); }
+
+    .pack-name   { font-size: .85rem; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .5px; margin-bottom: .3rem; }
+    .pack-price  { font-size: 2rem; font-weight: 800; color: var(--navy); letter-spacing: -1px; margin-bottom: 1rem; line-height: 1; }
+    .pack-price sup { font-size: 1rem; font-weight: 600; vertical-align: top; margin-top: .3rem; display: inline-block; }
+
+    .pack-features { list-style: none; display: flex; flex-direction: column; gap: .45rem; flex: 1; margin-bottom: 1.2rem; }
+    .pack-features li { display: flex; align-items: center; gap: .55rem; font-size: .84rem; color: var(--text); }
+    .pack-features li svg { width: 14px; height: 14px; stroke: var(--green); flex-shrink: 0; }
+    .pack-features li.dim { color: var(--muted); }
+    .pack-features li.dim svg { stroke: var(--border); }
+
+    .pack-select-btn {
+      display: block; text-align: center; padding: .6rem 1rem;
+      border-radius: 50px; font-size: .86rem; font-weight: 700;
+      border: 1.5px solid var(--primary); color: var(--primary);
+      background: transparent; cursor: pointer; font-family: inherit;
+      transition: background .15s, color .15s;
+    }
+    .pack-select-btn:hover, .pack-card.selected .pack-select-btn {
+      background: var(--teal); color: #fff; border-color: var(--teal);
+    }
+
+    .pack-note { font-size: .84rem; color: var(--muted); text-align: center; }
+    .pack-note strong { color: var(--primary); }
+
+    /* ── STEP 2: ATTENDEES ───────────────────────────────── */
+    .price-banner {
+      background: linear-gradient(135deg, var(--navy) 0%, var(--primary) 100%);
+      border-radius: var(--radius); padding: 1.2rem 1.5rem;
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 1.75rem; flex-wrap: wrap; gap: .75rem;
+    }
+
+    .price-banner .price-breakdown { color: rgba(255,255,255,.8); font-size: .88rem; }
+    .price-banner .price-total { font-size: 1.5rem; font-weight: 800; color: #fff; }
+    .price-banner .price-total span { font-size: .8rem; font-weight: 500; color: rgba(255,255,255,.6); display: block; text-align: right; }
+
+    .attendees-list { display: flex; flex-direction: column; gap: 1.2rem; margin-bottom: 1.5rem; }
+
+    .attendee-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 1.4rem;
+      position: relative;
+    }
+
+    .attendee-card-header {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 1.2rem;
+    }
+
+    .attendee-num {
+      font-size: .84rem; font-weight: 700; color: var(--muted);
+      text-transform: uppercase; letter-spacing: .4px;
+    }
+
+    .btn-remove-attendee {
+      background: #FFF5F5; color: #c53030; border: 1px solid #FED7D7;
+      border-radius: 7px; padding: 4px 10px; font-size: 12px; font-weight: 600;
+      cursor: pointer; font-family: inherit; transition: background .15s;
+    }
+    .btn-remove-attendee:hover { background: #FED7D7; }
+    .btn-remove-attendee:disabled { opacity: .4; cursor: not-allowed; }
+
+    .attendee-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;
+    }
+
+    .form-group { display: flex; flex-direction: column; gap: .35rem; margin-bottom: 0; }
+    .form-group.full { grid-column: 1 / -1; }
+    label { font-size: .8rem; font-weight: 600; color: var(--navy); }
+
+    input[type="text"], input[type="email"], input[type="tel"] {
+      width: 100%; padding: .65rem .9rem;
+      border: 1.5px solid var(--border); border-radius: 8px;
+      font-family: inherit; font-size: .9rem; color: var(--text);
+      background: var(--bg); outline: none;
+      transition: border-color .2s, box-shadow .2s;
+    }
+    input:focus { border-color: var(--teal); box-shadow: 0 0 0 3px rgba(42,171,219,.12); }
+
+    .visa-toggle { display: flex; align-items: center; gap: 1rem; margin-top: .15rem; }
+    .visa-toggle label { font-size: .88rem; font-weight: 500; color: var(--text); cursor: pointer; display: flex; align-items: center; gap: .4rem; margin: 0; }
+    .visa-toggle input[type="radio"] { width: auto; padding: 0; }
+
+    .passport-upload-area {
+      border: 2px dashed var(--border); border-radius: 8px;
+      padding: .9rem 1rem; text-align: center; cursor: pointer;
+      transition: border-color .15s, background .15s;
+      position: relative; background: var(--bg);
+    }
+    .passport-upload-area:hover { border-color: var(--teal); background: rgba(42,171,219,.04); }
+    .passport-upload-area input[type="file"] { position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; }
+    .passport-upload-area .upload-hint { font-size: .82rem; color: var(--muted); }
+    .passport-upload-area .upload-hint strong { color: var(--primary); }
+    .passport-file-name { font-size: .82rem; color: var(--green); font-weight: 600; margin-top: .3rem; }
+
+    .btn-add-attendee {
+      display: flex; align-items: center; gap: .5rem;
+      background: var(--bg); border: 1.5px dashed var(--border);
+      border-radius: var(--radius); padding: .85rem 1.5rem;
+      font-size: .9rem; font-weight: 600; color: var(--primary);
+      cursor: pointer; font-family: inherit; width: 100%;
+      justify-content: center; transition: border-color .15s, background .15s;
+    }
+    .btn-add-attendee:hover { border-color: var(--teal); background: rgba(42,171,219,.04); }
+
+    .btn-submit-registration {
+      width: 100%; padding: .95rem;
+      background: var(--teal); color: #fff;
+      border: none; border-radius: 50px; cursor: pointer;
+      font-size: 1rem; font-weight: 700; font-family: inherit;
+      transition: background .2s, transform .15s;
+      box-shadow: 0 4px 14px rgba(42,171,219,.4);
+      margin-top: .5rem;
+    }
+    .btn-submit-registration:hover { background: #1d96c4; transform: translateY(-1px); }
+
+    /* ── INVOICE ─────────────────────────────────────────── */
+    .invoice-section { margin-top: 2rem; }
+
+    .invoice-actions {
+      display: flex; align-items: center; gap: 1rem;
+      margin-bottom: 1.5rem; flex-wrap: wrap;
+    }
+
+    .btn-print {
+      display: inline-flex; align-items: center; gap: .5rem;
+      background: var(--primary); color: #fff;
+      border: none; border-radius: 8px; padding: .65rem 1.4rem;
+      font-size: .9rem; font-weight: 700; cursor: pointer; font-family: inherit;
+      transition: background .15s;
+    }
+    .btn-print:hover { background: #155d8a; }
+
+    .btn-back-step {
+      display: inline-flex; align-items: center; gap: .5rem;
+      background: var(--bg); color: var(--muted);
+      border: 1px solid var(--border); border-radius: 8px; padding: .65rem 1.2rem;
+      font-size: .9rem; font-weight: 600; cursor: pointer; font-family: inherit;
+      transition: background .15s;
+    }
+    .btn-back-step:hover { background: var(--border); }
+
+    /* Invoice document */
+    #invoiceDoc {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 2.5rem;
+      box-shadow: 0 4px 20px rgba(0,0,0,.08);
+      max-width: 720px;
+    }
+
+    .inv-header {
+      display: flex; align-items: flex-start; justify-content: space-between;
+      margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem;
+    }
+    .inv-header-logo img { height: 48px; }
+    .inv-meta { text-align: right; }
+    .inv-meta .inv-title { font-size: 1.6rem; font-weight: 800; color: var(--navy); letter-spacing: -1px; }
+    .inv-meta p { font-size: .85rem; color: var(--muted); margin-top: .25rem; }
+    .inv-meta strong { color: var(--text); }
+
+    .inv-parties {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 2rem; margin-bottom: 2rem;
+    }
+    .inv-party h4 { font-size: .75rem; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .5px; margin-bottom: .6rem; }
+    .inv-party p  { font-size: .88rem; color: var(--text); line-height: 1.7; }
+    .inv-party strong { color: var(--navy); }
+
+    .inv-event {
+      background: rgba(42,171,219,.06); border: 1px solid rgba(42,171,219,.2);
+      border-radius: 8px; padding: 1rem 1.2rem; margin-bottom: 2rem;
+      font-size: .88rem; color: var(--text);
+    }
+    .inv-event strong { color: var(--navy); display: block; margin-bottom: .2rem; }
+
+    .inv-table { width: 100%; border-collapse: collapse; margin-bottom: 1.5rem; }
+    .inv-table thead th { font-size: .75rem; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .5px; padding: .6rem .75rem; border-bottom: 2px solid var(--border); text-align: left; }
+    .inv-table thead th:last-child { text-align: right; }
+    .inv-table tbody td { padding: .85rem .75rem; border-bottom: 1px solid var(--border); font-size: .9rem; color: var(--text); }
+    .inv-table tbody td:last-child { text-align: right; font-weight: 600; }
+    .inv-table tfoot td { padding: .75rem; font-size: .9rem; }
+    .inv-table tfoot .total-row td { padding-top: 1rem; border-top: 2px solid var(--navy); font-weight: 800; font-size: 1.05rem; color: var(--navy); }
+    .inv-table tfoot .total-row td:last-child { font-size: 1.2rem; }
+    .inv-table tbody .sub-desc { font-size: .78rem; color: var(--muted); display: block; margin-top: .1rem; }
+
+    .inv-attendees { margin-bottom: 2rem; }
+    .inv-attendees h4 { font-size: .75rem; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .5px; margin-bottom: .75rem; border-bottom: 1px solid var(--border); padding-bottom: .5rem; }
+    .inv-attendees table { width: 100%; border-collapse: collapse; }
+    .inv-attendees table th { font-size: .75rem; color: var(--muted); font-weight: 600; padding: .4rem .5rem; text-align: left; }
+    .inv-attendees table td { font-size: .82rem; color: var(--text); padding: .5rem; border-top: 1px solid var(--border); }
+    .visa-yes { background: rgba(56,161,105,.1); color: #38a169; padding: .1rem .5rem; border-radius: 50px; font-size: .72rem; font-weight: 700; }
+    .visa-no  { background: rgba(100,116,139,.1); color: var(--muted); padding: .1rem .5rem; border-radius: 50px; font-size: .72rem; font-weight: 700; }
+
+    .inv-footer-note {
+      background: #F8FAFC; border-radius: 8px; padding: 1rem 1.2rem;
+      font-size: .84rem; color: var(--muted); line-height: 1.6;
+      border: 1px solid var(--border);
+    }
+    .inv-footer-note strong { color: var(--text); }
+
+    /* ── COMPLETION CARD ─────────────────────────────────── */
+    .completion-card {
+      background: var(--surface); border-radius: 16px;
+      padding: 2.5rem; text-align: center; margin-bottom: 2rem;
+      border: 1px solid rgba(56,161,105,.25);
+      box-shadow: 0 4px 20px rgba(56,161,105,.08);
+    }
+    .completion-icon { width: 64px; height: 64px; background: rgba(56,161,105,.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; }
+    .completion-icon svg { width: 32px; height: 32px; stroke: var(--green); }
+    .completion-card h2 { font-size: 1.4rem; font-weight: 800; color: var(--navy); margin-bottom: .5rem; }
+    .completion-card p  { font-size: .93rem; color: var(--muted); margin-bottom: 0; }
+
+    /* ── SUMMARY (for already-completed state) ───────────── */
+    .summary-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem; }
+    .summary-item { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 1rem 1.2rem; }
+    .summary-item label { display: block; font-size: .75rem; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .4px; margin-bottom: .35rem; }
+    .summary-item .summary-value { font-size: .95rem; font-weight: 700; color: var(--navy); }
+    .stage-pill { display: inline-block; padding: .2rem .7rem; border-radius: 50px; font-size: .78rem; font-weight: 700; }
+
+    /* ── @MEDIA ──────────────────────────────────────────── */
+    @media (max-width: 720px) {
+      .packs-grid { grid-template-columns: 1fr; }
+      .attendee-grid { grid-template-columns: 1fr; }
+      .inv-parties { grid-template-columns: 1fr; }
+      .summary-grid { grid-template-columns: 1fr; }
+      .price-banner { flex-direction: column; }
+    }
+
+    /* ── PRINT STYLES ────────────────────────────────────── */
+    @media print {
+      body * { visibility: hidden; }
+      #invoiceDoc, #invoiceDoc * { visibility: visible; }
+      #invoiceDoc {
+        position: fixed; inset: 0; border: none; border-radius: 0;
+        box-shadow: none; padding: 1.5cm;
+        max-width: none; width: 100%;
+      }
+      @page { size: A4; margin: 1.5cm; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── PORTAL HEADER ─────────────────────────────────────── -->
+<header class="portal-header">
+  <div class="portal-header-logo">
+    <img src="askhealth-logo.svg" alt="ASKHEALTH" onerror="this.style.display='none'">
+    <div class="portal-header-logo-text">
+      <strong>ASKHEALTH 2026</strong>
+      <span>Exhibitor Portal</span>
+    </div>
+  </div>
+  <div class="portal-header-right">
+    <span class="portal-inst-name" id="portalInstName"></span>
+    <button class="btn-signout" onclick="signOut()">Sign Out</button>
+  </div>
+</header>
+
+<!-- ── PORTAL MAIN ───────────────────────────────────────── -->
+<main class="portal-main">
+
+  <!-- Progress -->
+  <div class="progress-bar" id="progressBar">
+    <div class="progress-step" id="ps1">
+      <div class="step-circle">1</div>
+      <span>Choose Pack</span>
+    </div>
+    <div class="progress-connector" id="pc1"></div>
+    <div class="progress-step" id="ps2">
+      <div class="step-circle">2</div>
+      <span>Attendee Details</span>
+    </div>
+    <div class="progress-connector" id="pc2"></div>
+    <div class="progress-step" id="ps3">
+      <div class="step-circle">3</div>
+      <span>Invoice &amp; Confirmation</span>
+    </div>
+  </div>
+
+  <!-- ── STEP 1: Choose Pack ─── -->
+  <div id="step1">
+    <h1 class="section-title">Choose Your Exhibition Pack</h1>
+    <p class="section-sub">Select the package that best suits your goals for ASKHEALTH 2026. You can add additional attendees in the next step.</p>
+
+    <div class="packs-grid">
+      <!-- Silver -->
+      <div class="pack-card" id="packSilver" onclick="selectPack('silver',4400,this)">
+        <div class="pack-name">Silver Pack</div>
+        <div class="pack-price">&euro;4,400</div>
+        <ul class="pack-features">
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg> Participation in Event</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg> Branded Exhibition Stand</li>
+          <li class="dim"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> Transportation</li>
+          <li class="dim"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> Hotel Accommodation (2 nights)</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg> Networking Gala Dinner</li>
+          <li class="dim"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> Pre-Event Hospital Meetings</li>
+        </ul>
+        <button class="pack-select-btn" type="button">Select Silver</button>
+      </div>
+
+      <!-- Gold -->
+      <div class="pack-card featured" id="packGold" onclick="selectPack('gold',4900,this)">
+        <div class="pack-popular">Most Popular</div>
+        <div class="pack-name">Gold Pack</div>
+        <div class="pack-price">&euro;4,900</div>
+        <ul class="pack-features">
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg> Participation in Event</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg> Branded Exhibition Stand</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg> Transportation</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg> Hotel Accommodation (2 nights)</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg> Networking Gala Dinner</li>
+          <li class="dim"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> Pre-Event Hospital Meetings</li>
+        </ul>
+        <button class="pack-select-btn" type="button">Select Gold</button>
+      </div>
+
+      <!-- Diamond (Coming Soon) -->
+      <div class="pack-card disabled" id="packDiamond" style="opacity:.55;cursor:not-allowed;">
+        <div class="pack-popular premium-badge">Coming Soon</div>
+        <div class="pack-name">Diamond Pack</div>
+        <div class="pack-price" style="font-size:1.4rem;color:var(--muted);">Coming Soon</div>
+        <ul class="pack-features">
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg> Participation in Event</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg> Branded Exhibition Stand</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg> Transportation</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg> Hotel Accommodation (2 nights)</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg> Networking Gala Dinner</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg> Pre-Event Hospital Meetings</li>
+        </ul>
+        <button class="pack-select-btn" type="button" disabled style="opacity:.6;cursor:not-allowed;">Coming Soon</button>
+      </div>
+    </div>
+
+    <p class="pack-note">All packages include 1 attendee. <strong>Silver:</strong> additional attendees free &nbsp;&middot;&nbsp; <strong>Gold:</strong> +&euro;600 per additional attendee.</p>
+  </div>
+
+  <!-- ── STEP 2: Attendees ─── -->
+  <div id="step2" style="display:none;">
+    <h1 class="section-title">Attendee Details</h1>
+    <p class="section-sub">Add the details for each person attending the event. The first attendee is the primary contact. Upload a passport copy for each person.</p>
+
+    <div class="price-banner" id="priceBanner">
+      <div class="price-breakdown" id="priceBreakdown"></div>
+      <div class="price-total" id="priceTotal"></div>
+    </div>
+
+    <div class="attendees-list" id="attendeesList"></div>
+
+    <button class="btn-add-attendee" type="button" onclick="addAttendee()" id="btnAddAttendee">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      <span id="btnAddAttendeeLabel">Add Another Attendee</span>
+    </button>
+
+    <button class="btn-submit-registration" type="button" onclick="submitRegistration()">
+      Submit &amp; Generate Invoice
+    </button>
+  </div>
+
+  <!-- ── STEP 3: Invoice ─── -->
+  <div id="step3" style="display:none;">
+    <div class="completion-card">
+      <div class="completion-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
+      </div>
+      <h2>Registration Complete!</h2>
+      <p>Thank you. Your invoice is below. Our commercial representative will contact you within 48 hours with payment instructions.</p>
+    </div>
+
+    <div class="invoice-actions">
+      <button class="btn-print" onclick="window.print()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+        Print / Save as PDF
+      </button>
+    </div>
+
+    <div id="invoiceDoc"></div>
+  </div>
+
+  <!-- ── ALREADY COMPLETED (read-only summary) ─── -->
+  <div id="stepDone" style="display:none;">
+    <div class="completion-card">
+      <div class="completion-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
+      </div>
+      <h2>Your Registration is Submitted</h2>
+      <p id="doneSub"></p>
+    </div>
+
+    <div class="summary-grid" id="summaryGrid"></div>
+
+    <div class="invoice-actions" id="doneInvoiceActions">
+      <button class="btn-print" onclick="window.print()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+        Print / Download Invoice
+      </button>
+    </div>
+
+    <div id="invoiceDoc"></div>
+  </div>
+
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="crm/js/db.js"></script>
+<script>
+  let session, currentUser, exhibitor;
+  let selectedPack, selectedPrice;
+  let attendees = [], attendeeCount = 1;
+
+  DB.init().then(function() {
+    session = DB.getSession();
+    if (!session || session.role !== 'exhibitor') {
+      window.location.href = 'exhibitor-login.html'; return;
+    }
+    currentUser = DB.getUser(session.userId);
+    if (!currentUser) { window.location.href = 'exhibitor-login.html'; return; }
+
+    exhibitor = DB.getExhibitor(currentUser.exhibitorId);
+    if (!exhibitor) { window.location.href = 'exhibitor-login.html'; return; }
+
+    document.getElementById('portalInstName').textContent = exhibitor.institutionName;
+    selectedPack  = exhibitor.pack;
+    selectedPrice = exhibitor.packPrice;
+
+    init();
+  }); // end DB.init()
+
+  // ── Sign out ──────────────────────────────────────────────
+  function signOut() {
+    DB.clearSession();
+    window.location.href = 'exhibitor-login.html';
+  }
+
+  // ── Pack helpers ──────────────────────────────────────────
+  function packLabel(pack) {
+    if (pack === 'diamond' || pack === 'premium') return 'Diamond Pack';
+    if (pack === 'gold')                          return 'Gold Pack';
+    return 'Silver Pack'; // covers 'silver' and legacy 'regular'
+  }
+  function packIncludes(pack) {
+    const silver  = ['Participation in Event', 'Branded Exhibition Stand', 'Networking Gala Dinner'];
+    const gold    = silver.concat(['Transportation', 'Hotel Accommodation (2 nights)']);
+    const diamond = gold.concat(['Pre-Event Hospital Meetings']);
+    if (pack === 'diamond' || pack === 'premium') return diamond.join(', ');
+    if (pack === 'gold')                          return gold.join(', ');
+    return silver.join(', ');
+  }
+  // Per-extra-attendee price (Silver: free, Gold: +€600, Diamond: TBD)
+  function extraAttendeePrice(pack) {
+    if (pack === 'gold')                          return 600;
+    if (pack === 'diamond' || pack === 'premium') return 0;
+    return 0; // silver
+  }
+  function fmtEUR(v) { return '€' + Number(v || 0).toLocaleString('en-US'); }
+
+  // ── Determine which step to show on load ─────────────────
+  function init() {
+    if (exhibitor.invoice) {
+      // Already fully completed
+      showStepDone();
+    } else if (exhibitor.stage === 'pack_selected' || (exhibitor.pack && !exhibitor.invoice)) {
+      // Pack chosen but not submitted — resume step 2
+      selectedPack  = exhibitor.pack;
+      selectedPrice = exhibitor.packPrice;
+      showStep2();
+    } else {
+      // Fresh — step 1
+      showStep1();
+    }
+  }
+
+  // ── Progress helpers ──────────────────────────────────────
+  function setProgress(step) {
+    for (let i = 1; i <= 3; i++) {
+      const ps = document.getElementById('ps' + i);
+      ps.classList.remove('active','done');
+      if (i < step)      ps.classList.add('done');
+      else if (i === step) ps.classList.add('active');
+    }
+    for (let i = 1; i <= 2; i++) {
+      const pc = document.getElementById('pc' + i);
+      pc.classList.toggle('done', i < step);
+    }
+  }
+
+  // ── Step 1 ────────────────────────────────────────────────
+  function showStep1() {
+    document.getElementById('step1').style.display = '';
+    document.getElementById('step2').style.display = 'none';
+    document.getElementById('step3').style.display = 'none';
+    document.getElementById('stepDone').style.display = 'none';
+    setProgress(1);
+  }
+
+  function selectPack(pack, price, cardEl) {
+    selectedPack  = pack;
+    selectedPrice = price;
+
+    // Visual feedback
+    document.querySelectorAll('.pack-card').forEach(c => c.classList.remove('selected'));
+    cardEl.classList.add('selected');
+
+    // Save to exhibitor record via DB (syncs to Firebase)
+    exhibitor.pack      = pack;
+    exhibitor.packPrice = price;
+    exhibitor.stage     = 'pack_selected';
+    exhibitor.history   = exhibitor.history || [];
+    exhibitor.history.push({ type: 'pack_selected', pack, price, at: new Date().toISOString() });
+    DB.saveExhibitor(exhibitor);
+
+    setTimeout(() => showStep2(), 300);
+  }
+
+  // ── Step 2 ────────────────────────────────────────────────
+  function showStep2() {
+    document.getElementById('step1').style.display = 'none';
+    document.getElementById('step2').style.display = '';
+    document.getElementById('step3').style.display = 'none';
+    document.getElementById('stepDone').style.display = 'none';
+    setProgress(2);
+
+    // Build initial attendee from exhibitor contact
+    document.getElementById('attendeesList').innerHTML = '';
+    attendeeCount = 0;
+    addAttendee(exhibitor.contactPerson, exhibitor.jobTitle, exhibitor.email + ' / ' + exhibitor.phone);
+    updatePriceBanner();
+  }
+
+  function addAttendee(prefillName, prefillTitle, prefillContact) {
+    attendeeCount++;
+    const idx = attendeeCount;
+    const div = document.createElement('div');
+    div.className = 'attendee-card';
+    div.id = 'attendee_' + idx;
+    div.innerHTML = `
+      <div class="attendee-card-header">
+        <span class="attendee-num">Attendee ${idx}${idx === 1 ? ' (Primary Contact)' : ''}</span>
+        <button class="btn-remove-attendee" onclick="removeAttendee(${idx})" ${idx === 1 ? 'disabled' : ''}>Remove</button>
+      </div>
+      <div class="attendee-grid">
+        <div class="form-group">
+          <label>First Name *</label>
+          <input type="text" id="a${idx}_name" placeholder="Mehmet" value="${prefillName ? prefillName.split(' ')[0] : ''}">
+        </div>
+        <div class="form-group">
+          <label>Last Name *</label>
+          <input type="text" id="a${idx}_surname" placeholder="Yilmaz" value="${prefillName && prefillName.split(' ').length > 1 ? prefillName.split(' ').slice(1).join(' ') : ''}">
+        </div>
+        <div class="form-group">
+          <label>Position / Title *</label>
+          <input type="text" id="a${idx}_position" placeholder="International Relations Director" value="${prefillTitle || ''}">
+        </div>
+        <div class="form-group">
+          <label>Contact (Email / Phone) *</label>
+          <input type="text" id="a${idx}_contact" placeholder="mehmet@hospital.com.tr" value="${prefillContact || ''}">
+        </div>
+        <div class="form-group full">
+          <label>Passport Copy *</label>
+          <div class="passport-upload-area" id="uploadArea_${idx}">
+            <input type="file" id="a${idx}_passport" accept=".pdf,.jpg,.jpeg,.png" onchange="handlePassport(${idx}, this)">
+            <div class="upload-hint">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" style="margin-bottom:4px;opacity:.5;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg><br>
+              <strong>Click to upload passport</strong> (PDF, JPG, PNG — max 5MB)
+            </div>
+            <div class="passport-file-name" id="fileName_${idx}" style="display:none;"></div>
+          </div>
+        </div>
+        <div class="form-group full">
+          <label>Visa Support Required?</label>
+          <div class="visa-toggle">
+            <label><input type="radio" name="visa_${idx}" value="yes"> Yes, I need visa support</label>
+            <label><input type="radio" name="visa_${idx}" value="no" checked> No, I have a visa</label>
+          </div>
+        </div>
+      </div>
+    `;
+    document.getElementById('attendeesList').appendChild(div);
+    updatePriceBanner();
+  }
+
+  function removeAttendee(idx) {
+    const el = document.getElementById('attendee_' + idx);
+    if (el) el.remove();
+    updatePriceBanner();
+  }
+
+  function handlePassport(idx, input) {
+    if (!input.files || !input.files[0]) return;
+    const file = input.files[0];
+    if (file.size > 5 * 1024 * 1024) { alert('File size must be under 5MB.'); input.value = ''; return; }
+    const fileNameEl = document.getElementById('fileName_' + idx);
+    fileNameEl.textContent = '✓ ' + file.name;
+    fileNameEl.style.display = 'block';
+  }
+
+  function countAttendees() {
+    return document.querySelectorAll('.attendee-card').length;
+  }
+
+  function updatePriceBanner() {
+    const n = countAttendees();
+    const packPrice = selectedPrice || 0;
+    const unit = extraAttendeePrice(selectedPack);
+    const extra = Math.max(0, n - 1) * unit;
+    const total = packPrice + extra;
+
+    const extraCount = Math.max(0, n - 1);
+    let extraLine = '';
+    if (extraCount > 0) {
+      extraLine = unit > 0
+        ? ` &nbsp;+&nbsp; ${extraCount} extra attendee${extraCount>1?'s':''} × ${fmtEUR(unit)} = ${fmtEUR(extra)}`
+        : ` &nbsp;+&nbsp; ${extraCount} extra attendee${extraCount>1?'s':''} (included)`;
+    }
+
+    document.getElementById('priceBreakdown').innerHTML =
+      `<strong style="color:#fff;font-size:.95rem;">${packLabel(selectedPack)}</strong> ${fmtEUR(packPrice)}` + extraLine;
+
+    document.getElementById('priceTotal').innerHTML =
+      `${fmtEUR(total)}<span>Total</span>`;
+
+    const btnLabel = document.getElementById('btnAddAttendeeLabel');
+    if (btnLabel) {
+      btnLabel.textContent = unit > 0
+        ? `Add Another Attendee (+${fmtEUR(unit)})`
+        : 'Add Another Attendee (included)';
+    }
+  }
+
+  // ── Step 3 submission ─────────────────────────────────────
+  function submitRegistration() {
+    // Validate all attendee fields
+    const cards = document.querySelectorAll('.attendee-card');
+    let valid = true;
+    const builtAttendees = [];
+
+    cards.forEach((card, ci) => {
+      const idx = ci + 1;
+      const name    = document.getElementById('a' + idx + '_name')?.value.trim() || '';
+      const surname = document.getElementById('a' + idx + '_surname')?.value.trim() || '';
+      const position= document.getElementById('a' + idx + '_position')?.value.trim() || '';
+      const contact = document.getElementById('a' + idx + '_contact')?.value.trim() || '';
+      const passEl  = document.getElementById('a' + idx + '_passport');
+      const visaEl  = document.querySelector('input[name="visa_' + idx + '"]:checked');
+      const visa    = visaEl ? visaEl.value === 'yes' : false;
+
+      if (!name || !surname || !position || !contact) {
+        ['_name','_surname','_position','_contact'].forEach(f => {
+          const el = document.getElementById('a' + idx + f);
+          if (el && !el.value.trim()) el.style.borderColor = '#e53e3e';
+        });
+        valid = false;
+      }
+
+      // Read passport as base64
+      let passportData = null;
+      let passportName = null;
+      if (passEl && passEl.files && passEl.files[0]) {
+        passportName = passEl.files[0].name;
+        // We store the name; base64 reading is async — for simplicity store filename
+        passportData = passportName; // in real app would use FileReader
+      }
+
+      builtAttendees.push({ name, surname, position, contactDetails: contact, passportData, passportName, visaSupport: visa });
+    });
+
+    if (!valid) { alert('Please fill in all required attendee fields.'); return; }
+
+    const n = builtAttendees.length;
+    const unit = extraAttendeePrice(selectedPack);
+    const total = selectedPrice + Math.max(0, n - 1) * unit;
+    const invNumber = DB.generateInvoiceNumber();
+    const now = new Date();
+
+    const invoice = {
+      number:    invNumber,
+      issuedAt:  now.toISOString(),
+      currency:  'EUR',
+      packLine:  { label: packLabel(selectedPack), amount: selectedPrice },
+      attendeeLine: { count: n, unitPrice: unit, extra: Math.max(0, n-1) * unit },
+      total,
+    };
+
+    // Update exhibitor via DB (syncs to Firebase)
+    exhibitor.pack       = selectedPack;
+    exhibitor.packPrice  = selectedPrice;
+    exhibitor.attendees  = builtAttendees;
+    exhibitor.totalPrice = total;
+    exhibitor.invoice    = invoice;
+    exhibitor.stage      = 'docs_submitted';
+    exhibitor.updatedAt  = now.toISOString();
+    exhibitor.history    = exhibitor.history || [];
+    exhibitor.history.push({ type: 'docs_submitted', at: now.toISOString() });
+    DB.saveExhibitor(exhibitor);
+
+    showStep3(invoice, builtAttendees, total);
+  }
+
+  // ── Step 3 render ─────────────────────────────────────────
+  function showStep3(invoice, builtAttendees, total) {
+    document.getElementById('step1').style.display = 'none';
+    document.getElementById('step2').style.display = 'none';
+    document.getElementById('step3').style.display = '';
+    document.getElementById('stepDone').style.display = 'none';
+    setProgress(3);
+
+    renderInvoice('invoiceDoc', invoice, builtAttendees, total);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  // ── Already done ──────────────────────────────────────────
+  function showStepDone() {
+    document.getElementById('step1').style.display = 'none';
+    document.getElementById('step2').style.display = 'none';
+    document.getElementById('step3').style.display = 'none';
+    document.getElementById('stepDone').style.display = '';
+    setProgress(3);
+    document.getElementById('ps3').classList.add('done');
+
+    const stageLabelMap = {
+      docs_submitted: 'Documents Submitted',
+      payment_pending: 'Payment Pending',
+      confirmed: 'Confirmed',
+      pack_selected: 'Pack Selected',
+    };
+    const stageColorMap = {
+      docs_submitted: '#1A6FA3', payment_pending: '#D4A843',
+      confirmed: '#38a169', pack_selected: '#2AABDB',
+    };
+
+    document.getElementById('doneSub').textContent =
+      'Your pack is confirmed and documents received. Your commercial representative will be in touch soon.';
+
+    const inv = exhibitor.invoice;
+    document.getElementById('summaryGrid').innerHTML = `
+      <div class="summary-item"><label>Pack</label><div class="summary-value">${packLabel(exhibitor.pack)}</div></div>
+      <div class="summary-item"><label>Total Price</label><div class="summary-value">$${exhibitor.totalPrice.toLocaleString('en-US')}</div></div>
+      <div class="summary-item"><label>Attendees</label><div class="summary-value">${exhibitor.attendees.length}</div></div>
+      <div class="summary-item"><label>Status</label><div class="summary-value"><span class="stage-pill" style="background:${(stageColorMap[exhibitor.stage]||'#64748B')}22;color:${stageColorMap[exhibitor.stage]||'#64748B'}">${stageLabelMap[exhibitor.stage]||exhibitor.stage}</span></div></div>
+      ${inv ? `<div class="summary-item"><label>Invoice #</label><div class="summary-value">${inv.number}</div></div>` : ''}
+    `;
+
+    if (inv) {
+      document.getElementById('doneInvoiceActions').style.display = 'flex';
+      renderInvoice('invoiceDoc', inv, exhibitor.attendees, inv.total);
+    } else {
+      document.getElementById('doneInvoiceActions').style.display = 'none';
+    }
+  }
+
+  // ── Invoice renderer ──────────────────────────────────────
+  function renderInvoice(containerId, invoice, attendees, total) {
+    const ex = exhibitor;
+    const fmt = v => '€' + Number(v || 0).toLocaleString('en-US');
+    const dateStr = new Date(invoice.issuedAt).toLocaleDateString('en-GB', { day: '2-digit', month: 'long', year: 'numeric' });
+    const extra = invoice.attendeeLine.extra || 0;
+    const extraCount = invoice.attendeeLine.count - 1;
+
+    const attendeeRows = (attendees || []).map((a, i) => `
+      <tr>
+        <td>${i + 1}</td>
+        <td>${esc(a.name)} ${esc(a.surname)}</td>
+        <td>${esc(a.position)}</td>
+        <td>${esc(a.contactDetails)}</td>
+        <td>${a.visaSupport ? '<span class="visa-yes">Yes</span>' : '<span class="visa-no">No</span>'}</td>
+      </tr>
+    `).join('');
+
+    document.getElementById(containerId).innerHTML = `
+      <div class="inv-header">
+        <div class="inv-header-logo">
+          <img src="askhealth-logo.svg" alt="ASKHEALTH" onerror="this.style.display='none'" style="height:48px;">
+        </div>
+        <div class="inv-meta">
+          <div class="inv-title">INVOICE</div>
+          <p><strong>Invoice #:</strong> ${esc(invoice.number)}</p>
+          <p><strong>Date:</strong> ${dateStr}</p>
+        </div>
+      </div>
+
+      <div class="inv-parties">
+        <div class="inv-party">
+          <h4>Billed To</h4>
+          <p>
+            <strong>${esc(ex.institutionName)}</strong><br>
+            ${esc(ex.contactPerson)}<br>
+            ${esc(ex.jobTitle)}<br>
+            ${esc(ex.city)}, Turkey<br>
+            ${esc(ex.email)}<br>
+            ${esc(ex.phone)}
+            ${ex.website ? '<br>' + esc(ex.website) : ''}
+          </p>
+        </div>
+        <div class="inv-party">
+          <h4>From</h4>
+          <p>
+            <strong>ASKHEALTH / AskFairs</strong><br>
+            Healthcare B2B Events<br>
+            morocco@askfairs.com<br>
+            +212 630 57 65 85
+          </p>
+        </div>
+      </div>
+
+      <div class="inv-event">
+        <strong>Event Details</strong>
+        ASKHEALTH Healthcare B2B Event &mdash; August 15, 2026 &mdash; Hyatt Regency, Casablanca, Morocco
+      </div>
+
+      <table class="inv-table">
+        <thead>
+          <tr>
+            <th style="width:55%">Description</th>
+            <th>Qty</th>
+            <th>Unit Price</th>
+            <th>Amount</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              ${esc(invoice.packLine.label)}
+              <span class="sub-desc">${packIncludes(ex.pack)}</span>
+            </td>
+            <td>1</td>
+            <td>${fmt(invoice.packLine.amount)}</td>
+            <td>${fmt(invoice.packLine.amount)}</td>
+          </tr>
+          ${extraCount > 0 ? `
+          <tr>
+            <td>Additional Attendees<span class="sub-desc">Each extra attendee beyond the primary contact${invoice.attendeeLine.unitPrice === 0 ? ' (included)' : ''}</span></td>
+            <td>${extraCount}</td>
+            <td>${fmt(invoice.attendeeLine.unitPrice)}</td>
+            <td>${fmt(extra)}</td>
+          </tr>` : ''}
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="3" style="text-align:right;color:var(--muted);font-size:.85rem;">Subtotal</td>
+            <td style="text-align:right;">${fmt(total)}</td>
+          </tr>
+          <tr class="total-row">
+            <td colspan="3" style="text-align:right;">TOTAL DUE</td>
+            <td style="text-align:right;">${fmt(total)}</td>
+          </tr>
+        </tfoot>
+      </table>
+
+      ${attendees && attendees.length ? `
+      <div class="inv-attendees">
+        <h4>Attendees Included</h4>
+        <table>
+          <thead><tr><th>#</th><th>Full Name</th><th>Position</th><th>Contact</th><th>Visa Support</th></tr></thead>
+          <tbody>${attendeeRows}</tbody>
+        </table>
+      </div>` : ''}
+
+      <div class="inv-footer-note">
+        <strong>Payment Instructions:</strong> Payment details will be sent to you by your assigned commercial representative within 48 hours. Please reference invoice number <strong>${esc(invoice.number)}</strong> in all correspondence.<br><br>
+        Thank you for choosing to exhibit at ASKHEALTH 2026. We look forward to welcoming your team in Casablanca.
+      </div>
+    `;
+  }
+
+  function esc(str) {
+    if (!str) return '';
+    return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
+  // ── Init ──────────────────────────────────────────────────
+  init();
+</script>
+</body>
+</html>

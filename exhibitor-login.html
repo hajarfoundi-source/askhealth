@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Exhibitor Portal — ASKHEALTH 2026</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      min-height: 100vh;
+      background: linear-gradient(135deg, #0F2D45 0%, #1A6FA3 60%, #2AABDB 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .login-card {
+      background: #fff;
+      border-radius: 20px;
+      box-shadow: 0 24px 64px rgba(0,0,0,.32);
+      display: flex;
+      overflow: hidden;
+      width: 820px;
+      max-width: 100%;
+      min-height: 480px;
+    }
+
+    /* Left panel */
+    .login-left {
+      background: linear-gradient(160deg, #0F2D45 0%, #1A6FA3 100%);
+      color: #fff;
+      padding: 40px 36px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      flex: 1;
+      min-width: 240px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .login-left::before {
+      content: '';
+      position: absolute; top: -80px; right: -80px;
+      width: 280px; height: 280px;
+      border: 50px solid rgba(42,171,219,.1);
+      border-radius: 50%;
+    }
+
+    .login-left-logo {
+      display: flex; align-items: center; gap: 12px; margin-bottom: 32px;
+    }
+
+    .login-left-logo img {
+      width: 52px; height: 52px;
+      object-fit: contain;
+      background: rgba(255,255,255,.12);
+      border-radius: 12px; padding: 5px;
+    }
+
+    .login-left-logo-text strong { display: block; font-size: 19px; font-weight: 800; }
+    .login-left-logo-text span   { font-size: 12px; color: rgba(255,255,255,.55); }
+
+    .login-left h2 { font-size: 22px; font-weight: 700; margin-bottom: 10px; line-height: 1.3; }
+    .login-left p  { font-size: 13px; color: rgba(255,255,255,.65); line-height: 1.65; }
+
+    .event-info { margin-top: 32px; padding-top: 24px; border-top: 1px solid rgba(255,255,255,.15); }
+    .event-info-item { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; font-size: 13px; color: rgba(255,255,255,.75); }
+    .event-info-item svg { flex-shrink: 0; opacity: .7; }
+
+    /* Right panel */
+    .login-right {
+      padding: 48px 40px;
+      display: flex; flex-direction: column; justify-content: center;
+      width: 360px; flex-shrink: 0;
+    }
+
+    .login-right h3 { font-size: 22px; font-weight: 800; color: #0F2D45; margin-bottom: 6px; }
+    .login-right .subtitle { font-size: 13px; color: #64748B; margin-bottom: 28px; }
+
+    .form-group { margin-bottom: 16px; }
+    .form-group label { display: block; font-size: 11px; font-weight: 700; color: #64748B; text-transform: uppercase; letter-spacing: .6px; margin-bottom: 5px; }
+    .form-group input { width: 100%; padding: 10px 13px; border: 1.5px solid #E2E8F0; border-radius: 8px; font-size: 14px; font-family: inherit; color: #1A202C; outline: none; transition: border-color .15s; }
+    .form-group input:focus { border-color: #2AABDB; box-shadow: 0 0 0 3px rgba(42,171,219,.1); }
+
+    .btn-login {
+      width: 100%; padding: 11px;
+      background: #1A6FA3; color: #fff;
+      border: none; border-radius: 8px;
+      font-size: 14px; font-weight: 700; cursor: pointer;
+      transition: background .15s; margin-top: 6px; font-family: inherit;
+    }
+    .btn-login:hover { background: #155d8a; }
+
+    .error-msg {
+      display: none;
+      background: #FFF5F5; border: 1px solid #FED7D7; color: #c53030;
+      border-radius: 7px; padding: 9px 12px; font-size: 13px; margin-bottom: 14px;
+    }
+    .error-msg.visible { display: block; }
+
+    .login-footer {
+      margin-top: 24px; padding-top: 20px;
+      border-top: 1px solid #E2E8F0;
+      font-size: 12px; color: #A0AEC0; text-align: center; line-height: 1.8;
+    }
+    .login-footer a { color: #1A6FA3; text-decoration: none; font-weight: 500; }
+    .login-footer a:hover { text-decoration: underline; }
+
+    @media (max-width: 600px) {
+      .login-left { display: none; }
+      .login-right { width: 100%; padding: 32px 24px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="login-card">
+    <!-- Left branding -->
+    <div class="login-left">
+      <div class="login-left-logo">
+        <img src="askhealth-logo.svg" alt="ASKHEALTH" onerror="this.style.display='none'">
+        <div class="login-left-logo-text">
+          <strong>ASKHEALTH 2026</strong>
+          <span>Exhibitor Portal</span>
+        </div>
+      </div>
+      <h2>Welcome, Turkish Healthcare Partners</h2>
+      <p>Log in to your exhibitor account to select your package, upload attendee details, and receive your invoice for ASKHEALTH 2026.</p>
+      <div class="event-info">
+        <div class="event-info-item">
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
+          </svg>
+          August 15, 2026
+        </div>
+        <div class="event-info-item">
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
+          </svg>
+          Hyatt Regency, Casablanca
+        </div>
+        <div class="event-info-item">
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.07 12 19.79 19.79 0 0 1 1 3.18 2 2 0 0 1 3 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.09 8.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21 16z"/>
+          </svg>
+          +212 630 57 65 85
+        </div>
+      </div>
+    </div>
+
+    <!-- Right login form -->
+    <div class="login-right">
+      <h3>Exhibitor Sign In</h3>
+      <p class="subtitle">Access your exhibitor portal</p>
+
+      <div class="error-msg" id="errorMsg">Invalid email or password.</div>
+
+      <form id="loginForm" autocomplete="off">
+        <div class="form-group">
+          <label>Email Address</label>
+          <input type="email" id="email" placeholder="your@hospital.com.tr" required autocomplete="email">
+        </div>
+        <div class="form-group">
+          <label>Password</label>
+          <input type="password" id="password" placeholder="••••••••" required autocomplete="current-password">
+        </div>
+        <button type="submit" class="btn-login">Sign In to Portal</button>
+      </form>
+
+      <div class="login-footer">
+        Not registered yet?<br>
+        <a href="exhibitors.html#apply">Apply for a stand &rarr;</a>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="crm/js/db.js"></script>
+  <script>
+    DB.init().then(function() {
+      // Redirect if already logged in as exhibitor
+      const s = DB.getSession();
+      if (s && s.role === 'exhibitor') {
+        window.location.href = 'exhibitor-portal.html';
+        return;
+      }
+
+      document.getElementById('loginForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const email    = document.getElementById('email').value.trim().toLowerCase();
+        const password = document.getElementById('password').value;
+        const errEl    = document.getElementById('errorMsg');
+        errEl.classList.remove('visible');
+
+        const user = DB.getUserByEmail(email);
+
+        if (!user || user.password !== password) {
+          errEl.textContent = 'Invalid email or password.';
+          errEl.classList.add('visible');
+          document.getElementById('password').value = '';
+          return;
+        }
+
+        if (user.role !== 'exhibitor') {
+          errEl.textContent = 'This portal is for exhibitors only. Please use the CRM login.';
+          errEl.classList.add('visible');
+          return;
+        }
+
+        DB.setSession(user);
+        window.location.href = 'exhibitor-portal.html';
+      });
+    });
+
+    ['email','password'].forEach(id => {
+      document.getElementById(id).addEventListener('input', () => {
+        document.getElementById('errorMsg').classList.remove('visible');
+      });
+    });
+  </script>
+</body>
+</html>
