@@ -419,6 +419,23 @@
       .faq-item summary { padding: 16px 16px; font-size: 15px; }
       .faq-item p { padding: 0 16px 18px; }
     }
+    /* ── STICKY MOBILE CTA ───────────────────────────── */
+    .sticky-cta { display: none; }
+    @media (max-width: 960px) {
+      .sticky-cta {
+        display: block; position: fixed; z-index: 190;
+        left: 0; right: 0; bottom: 0;
+        padding: 12px 16px calc(12px + env(safe-area-inset-bottom));
+        background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,.92) 38%, #fff 100%);
+        transform: translateY(130%); opacity: 0;
+        transition: transform .28s ease, opacity .28s ease;
+        pointer-events: none;
+      }
+      .sticky-cta.show { transform: translateY(0); opacity: 1; pointer-events: auto; }
+      .sticky-cta .btn { width: 100%; padding: 15px 20px; font-size: 16px; box-shadow: 0 6px 20px rgba(42,171,219,.45); }
+      footer { padding-bottom: 96px; }
+    }
+
     @media (prefers-reduced-motion: reduce) {
       html { scroll-behavior: auto; }
       * { transition: none !important; }
@@ -768,6 +785,11 @@
 
 </main>
 
+<!-- ── STICKY CTA (mobile only) ──────────────────────── -->
+<div class="sticky-cta" id="stickyCta">
+  <a href="#inscription" class="btn btn-primary" data-i18n="sticky_cta">Réserver ma place</a>
+</div>
+
 <!-- ── FOOTER ────────────────────────────────────────── -->
 <footer>
   <div class="container">
@@ -796,7 +818,7 @@
     u_d: 'ي', u_h: 'س', u_m: 'د', u_s: 'ث',
     tb_loc: 'لا بالاس دانفا، الدار البيضاء',
     nav_why: 'لماذا تحضر', nav_prog: 'البرنامج', nav_info: 'معلومات عملية', nav_faq: 'أسئلة شائعة',
-    nav_cta: 'سجّل الآن', nav_cta_m: 'احجز مقعدك',
+    nav_cta: 'سجّل الآن', nav_cta_m: 'احجز مقعدك', sticky_cta: 'احجز مقعدك',
     hero_eyebrow: 'ملتقى الأعمال الصحي B2B — 17 أكتوبر 2026',
     hero_h1: 'ملتقى الأعمال الصحي <em>بين المغرب وتركيا</em>',
     hero_lead: 'يجمع ASKHEALTH في الدار البيضاء صنّاع القرار في القطاع الطبي بالمغرب ونخبة المستشفيات والمصحات التركية، في يوم كامل من لقاءات الأعمال والمؤتمرات والشراكات.',
@@ -1001,6 +1023,19 @@
   mnav.querySelectorAll('a').forEach(function (a) {
     a.addEventListener('click', function () { mnav.classList.remove('open'); toggle.setAttribute('aria-expanded', 'false'); });
   });
+
+  // ── Sticky mobile CTA: show once the form is scrolled past ──
+  var sticky = document.getElementById('stickyCta');
+  var formCard = document.getElementById('formCard');
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(function (entries) {
+      // Hidden while the form itself is on screen — it is the same action
+      sticky.classList.toggle('show', !entries[0].isIntersecting);
+    }, { rootMargin: '-80px 0px -120px 0px' }).observe(formCard);
+  } else {
+    sticky.classList.add('show');
+  }
+  sticky.addEventListener('click', function () { sticky.classList.remove('show'); });
 
   // ── Form ──
   var form = document.getElementById('regForm');
