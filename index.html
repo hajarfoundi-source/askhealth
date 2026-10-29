@@ -5,6 +5,27 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title data-i18n="meta_title">ASKHEALTH — Inscription visiteur · 21 novembre 2026, Casablanca</title>
   <meta name="description" content="ASKHEALTH Healthcare B2B Event — le rendez-vous B2B de la santé entre le Maroc et la Turquie. 21 novembre 2026, La Palace d’Anfa, Casablanca." />
+  <!-- ── Meta Pixel ──────────────────────────────────────
+       Put your Pixel ID below (Events Manager → Data Sources).
+       While it is unset nothing loads and no request is sent. -->
+  <script>
+    window.FB_PIXEL_ID = 'YOUR_PIXEL_ID';
+    (function () {
+      var id = window.FB_PIXEL_ID;
+      if (!id || /^YOUR_/.test(id)) return;
+      !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+      n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+      n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+      t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+      document,'script','https://connect.facebook.net/en_US/fbevents.js');
+      fbq('init', id);
+      fbq('track', 'PageView');
+      // No <noscript> fallback on purpose: the registration form needs
+      // JavaScript anyway, and a second image request would double-count
+      // every PageView.
+    })();
+  </script>
+
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
@@ -1133,6 +1154,19 @@
     $('formWrap').hidden = true;
     $('thankYou').hidden = false;
     $('formCard').scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+    // Meta Pixel conversion — no personal data is sent, only the
+    // non-identifying fields needed to compare campaigns.
+    try {
+      if (typeof fbq === 'function') {
+        fbq('track', 'Lead', {
+          content_name: 'ASKHEALTH visitor registration',
+          content_category: data.interest,
+          country: data.country,
+          lang: lang
+        });
+      }
+    } catch (err) { console.warn('Pixel error:', err); }
 
     // Save to DB (Firebase + localStorage) asynchronously
     try {
